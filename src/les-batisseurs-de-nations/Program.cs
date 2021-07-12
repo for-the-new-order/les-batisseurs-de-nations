@@ -18,7 +18,6 @@ namespace LesBatisseursDeNations
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             ConfigureServices(builder.Services);
 
             // Set current language
@@ -30,6 +29,7 @@ namespace LesBatisseursDeNations
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddAntDesign();
+            services.AddSingleton(new UserOptions());
         }
     }
 }

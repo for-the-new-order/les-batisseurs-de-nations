@@ -1,17 +1,40 @@
 ﻿@inherits LayoutComponentBase
+@inject UserOptions options;
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<Layout>
+    <Header Class="header">
+        <div class="logo">Les batisseurs de nations</div>
+    </Header>
+    <Layout>
+        <Sider Theme="options.SiderTheme">
+            <SiderMenu />
+        </Sider>
+        <Layout Style="min-height: calc(100vh - 134px);">
+            @*<Breadcrumb Style="padding: 24px 24px 0 24px;">
+                <BreadcrumbItem>Home</BreadcrumbItem>
+            </Breadcrumb>*@
+            <Content Style="padding: 24px;" Class="dark-layout">
+                @Body
+            </Content>
+        </Layout>
+    </Layout>
+    <Footer Style="background: #001529; color: #CCC;">
+        <Row>
+            <Col Span="24">Footer</Col>
+        </Row>
+    </Footer>
+</Layout>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
+<style>
+    #components-layout-demo-top-side-2 .logo {
+        width: 120px;
+        height: 31px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 16px 28px 16px 0;
+        float: left;
+    }
 
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+    .site-layout-background {
+        background: #fff;
+    }
+</style>

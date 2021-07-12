@@ -1,0 +1,28 @@
+﻿@inject UserOptions options;
+
+<Menu Mode="MenuMode.Inline"
+      Theme="options.MenuTheme"
+      DefaultSelectedKeys=@(new[] {"1"})
+      DefaultOpenKeys=@(new[] {"sub1"})
+      Style="height: 100%; border-right: 0;">
+
+    <MenuItem Key="home" Icon="home" RouterLink="/">Accueil</MenuItem>
+    <SubMenu Key="journals" TitleTemplate="journalMenuItemContent">
+        <MenuItem Key="S01E01" RouterLink="/journals/season1/episode1">Episode 1</MenuItem>
+    </SubMenu>
+    <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams"></MenuItem>
+</Menu>
+
+@code{
+    private readonly RenderFragment streamMenuItemContent =
+    @<span>
+        <TwitchIcon />
+        Streams
+    </span>;
+
+    private readonly RenderFragment journalMenuItemContent =
+    @<span>
+        <Icon Type="book" Theme="outline" />
+        Journal
+    </span>;
+}

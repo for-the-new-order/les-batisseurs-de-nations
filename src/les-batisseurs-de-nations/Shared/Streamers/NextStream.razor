@@ -1,0 +1,46 @@
+﻿@inject UserOptions options
+
+<Card Bordered>
+    <ChildContent>
+        <CardMeta Title="Prochain épisode des Batisseurs de Nations"
+                  AvatarTemplate="avatar"
+                  Description="@FormattedDate" />
+        @if (!string.IsNullOrEmpty(Description))
+        {
+            <p>@Description</p>
+        }
+    </ChildContent>
+    <ActionTemplate>
+        <CardAction>
+            <a href="@DiscordLink"
+               title="Discord link"
+               target="_blank">
+                <DiscordIcon />
+            </a>
+        </CardAction>
+        <CardAction>
+            <a href="@Resources.StreamerChannelLink(NextStreamer)"
+               title="@Resources.StreamerName(NextStreamer)"
+               target="_blank">
+                <TwitchIcon />
+            </a>
+        </CardAction>
+    </ActionTemplate>
+</Card>
+
+@code{
+    private RenderFragment avatar => @<StreamerAvatar Streamer="NextStreamer" />;
+    private string FormattedDate => Date.ToString("dddd le d MMMM yyyy à h\\:mm tt EDT", options.Culture);
+
+    [Parameter]
+    public string DiscordLink { get; set; }
+
+    [Parameter]
+    public string Description { get; set; }
+
+    [Parameter]
+    public Streamer NextStreamer { get; set; }
+
+    [Parameter]
+    public DateTime Date { get; set; }
+}
