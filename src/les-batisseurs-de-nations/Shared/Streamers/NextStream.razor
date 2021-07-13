@@ -1,8 +1,8 @@
 ﻿@inject UserOptions options
 
-<Card Bordered>
+<Card Bordered Title="Prochain épisode des Batisseurs de Nations">
     <ChildContent>
-        <CardMeta Title="Prochain épisode des Batisseurs de Nations"
+        <CardMeta Title="@Resources.StreamerName(NextStreamer)"
                   AvatarTemplate="avatar"
                   Description="@FormattedDate" />
         @if (!string.IsNullOrEmpty(Description))
@@ -26,6 +26,9 @@
             </a>
         </CardAction>
     </ActionTemplate>
+    <Extra>
+        <a>More</a>
+    </Extra>
 </Card>
 
 @code{

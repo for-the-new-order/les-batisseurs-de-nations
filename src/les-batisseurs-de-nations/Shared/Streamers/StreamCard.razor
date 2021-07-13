@@ -1,0 +1,85 @@
+﻿@inject UserOptions options
+
+<Card Bordered Title="@CardTitle">
+    <ChildContent>
+        <CardMeta 
+            AvatarTemplate="avatar" 
+            Description="@Description" 
+        />
+        @if (!string.IsNullOrEmpty(Info.Description))
+        {
+            <p>@Info.Description</p>
+        }
+        else if (Info.HasYouTubeUri)
+        {
+            <p>&nbsp;</p>
+        }
+        @if (Info.HasYouTubeUri) 
+        { 
+            <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        }
+    </ChildContent>
+    <ActionTemplate>
+        @if (Info.HasEpisodeEntryLink)
+        {
+            <CardAction>
+                <a href="@Info.EpisodeEntryLink"
+                   title="Lien vers le journal">
+                    <JournalIcon />
+                </a>
+            </CardAction>
+        }
+        <CardAction>
+            <a href="@Resources.StreamerChannelLink(Info.Streamer)"
+               title="Twitch channel: @Resources.StreamerName(Info.Streamer)"
+               target="_blank">
+                <TwitchIcon />
+            </a>
+        </CardAction>
+        @if (Info.HasYouTubeUri)
+        {
+            <CardAction>
+                <a href="@Info.YouTubeEmbededUri"
+                   title="Voir la vidéo en plein écran"
+                   target="_blank">
+                    <Icon Type="fullscreen" Theme="outline" />
+                </a>
+            </CardAction>
+        }
+        @if (Info.HasDiscordLink)
+        {
+            <CardAction>
+                <a href="@Info.DiscordLink"
+                   title="Lien vers l'événement Discord"
+                   target="_blank">
+                    <DiscordIcon />
+                </a>
+            </CardAction>
+        }
+    </ActionTemplate>
+</Card>
+
+@code{
+    private RenderFragment avatar =>@<StreamerAvatar Streamer="Info.Streamer" />;
+
+    private string CardTitle => $"Epidode {Info.EpisodeNumber}: " + Info.State switch
+    {
+        StreamState.Future => "Prochain épisode des Batisseurs de Nations",
+        StreamState.StartingSoon => "Démarrage du stream imminent",
+        StreamState.Playing => "Épisode en cours",
+        StreamState.MightStillBeOn => "L'épisode est peut-être encore en cours",
+        StreamState.Ended when Info.HasTitle => Info.Title,
+        _ => "Terminé"
+    };
+
+    private string Description => Info.State switch
+    {
+        StreamState.Ended => $"L'épisode a joué {Info.StartDate.ToString("dddd le d MMMM yyyy", options.Culture)}",
+        _ when Info.StartDate.DayOfYear == Info.EndDate.DayOfYear => $"Débute {Info.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} à {Info.EndDate.ToString("h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
+        _ => $"Débute {Info.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} et prend fin {Info.EndDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
+
+    };
+
+    [Parameter]
+    public StreamInfo Info { get; set; }
+}
