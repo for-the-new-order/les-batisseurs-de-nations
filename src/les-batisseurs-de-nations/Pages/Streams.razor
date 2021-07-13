@@ -31,23 +31,12 @@
         if (stream.State == StreamState.Future)
         {
             <TimelineItem Dot="futureIcon">
-                @*<LesBatisseursDeNations.Shared.Streamers.PastStream 
-                    YouTubeEmbededUri="https://www.youtube.com/embed/yt4xTDlBOQs" 
-                    Streamer="Streamer.OnStartTuCa"
-                    Title="Ouverture du Westmarch des terres perdues"
-                    Date="new DateTime(2021, 07, 09)"
-                />*@
                 <StreamCard Info="stream" />
             </TimelineItem>
         }
         else
         {
             <TimelineItem Dot="playIcon">
-                @*<LesBatisseursDeNations.Shared.Streamers.NextStream 
-                    DiscordLink="https://discord.com/channels/662746189069942802/859589836225511424/860273039534719047"
-                    NextStreamer="Streamer.Puppo" 
-                    Date="new DateTime(2021, 07, 28, 19, 30, 0)"
-                />*@
                 <StreamCard Info="stream" />
             </TimelineItem>
         }
