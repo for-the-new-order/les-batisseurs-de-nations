@@ -1,6 +1,6 @@
 ﻿@inject UserOptions options
 
-<Card Bordered Title="@CardTitle">
+<Card Bordered Title="@CardTitle" Id="@CardId">
     <ChildContent>
         <CardMeta 
             AvatarTemplate="avatar" 
@@ -61,6 +61,8 @@
 
 @code{
     private RenderFragment avatar =>@<StreamerAvatar Streamer="Info.Streamer" />;
+
+    private string CardId => $"card-episode-{Info.EpisodeNumber}";
 
     private string CardTitle => $"Epidode {Info.EpisodeNumber}: " + Info.State switch
     {

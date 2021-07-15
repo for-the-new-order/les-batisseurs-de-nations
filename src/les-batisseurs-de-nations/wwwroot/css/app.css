@@ -32,3 +32,7 @@
     .dark-layout .ant-timeline-item-head {
         background-color: transparent;
     }
+
+.ant-page-header.journal-page-header {
+    margin-bottom: 1em;
+}
