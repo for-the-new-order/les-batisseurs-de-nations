@@ -1,6 +1,6 @@
-﻿<Avatar Size="50" Src="@Resources.AvatarUri(Streamer)" Alt="@Resources.StreamerName(Streamer)" />
+﻿<Avatar Size="50" Src="@Streamer.ProfileImageUri" Alt="@Streamer.DisplayName" />
 
 @code{
     [Parameter]
-    public Streamer Streamer { get; set; }
+    public TwitchChannel Streamer { get; set; }
 }

@@ -20,7 +20,7 @@
         }
     </ChildContent>
     <ActionTemplate>
-        @if (Info.HasEpisodeEntryLink)
+        @*@if (Info.HasEpisodeEntryLink)
         {
             <CardAction>
                 <a href="@Info.EpisodeEntryLink"
@@ -28,10 +28,10 @@
                     <JournalIcon />
                 </a>
             </CardAction>
-        }
+        }*@
         <CardAction>
-            <a href="@Resources.StreamerChannelLink(Info.Streamer)"
-               title="Twitch channel: @Resources.StreamerName(Info.Streamer)"
+            <a href="@Info.Streamer.ChannelUri"
+               title="Twitch channel: @Info.Streamer.DisplayName"
                target="_blank">
                 <TwitchIcon />
             </a>
@@ -62,9 +62,9 @@
 @code{
     private RenderFragment avatar =>@<StreamerAvatar Streamer="Info.Streamer" />;
 
-    private string CardId => $"card-episode-{Info.EpisodeNumber}";
+    private string CardId => $"card-season-{Info.Season}-episode-{Info.Episode}";
 
-    private string CardTitle => $"Epidode {Info.EpisodeNumber}: " + Info.State switch
+    private string CardTitle => $"Epidode {Info.Episode}: " + Info.State switch
     {
         StreamState.Future => "Prochain épisode des Batisseurs de Nations",
         StreamState.StartingSoon => "Démarrage du stream imminent",
@@ -83,5 +83,5 @@
     };
 
     [Parameter]
-    public StreamInfo Info { get; set; }
+    public EpisodeInfo Info { get; set; }
 }
