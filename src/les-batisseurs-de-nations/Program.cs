@@ -32,6 +32,9 @@ namespace LesBatisseursDeNations
             services.AddAntDesign();
             services.AddSingleton(new UserOptions());
 
+            // Random
+            services.AddSingleton<Random>();
+
             // Data
             services.AddSingleton<Database>();
             services.AddSingleton<ITwitchChannelsService, StaticDataService>();

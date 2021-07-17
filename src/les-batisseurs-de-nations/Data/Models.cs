@@ -44,9 +44,13 @@ namespace LesBatisseursDeNations.Data
             };
         }
     }
-    public record JournalEntry(Player Author, DateTime WrittenDate, string Content)
+    public record JournalEntry(Player Author, DateTime PublishedDate, string Content)
     {
         public string Title { get; init; }
+        public string Abstract { get; init; }
+
+        public bool HasTitle => !string.IsNullOrEmpty(Title);
+        public bool HasAbstract => !string.IsNullOrEmpty(Abstract);
     }
     public record Player(
         int Id, 
@@ -55,7 +59,12 @@ namespace LesBatisseursDeNations.Data
         string CharacterSheetUri, 
         string CharacterSheetImageUri,
         bool IsTeamMember
-    );
+    )
+    {
+        public bool HasProfileImageUri => !string.IsNullOrEmpty(ProfileImageUri);
+        public bool HasCharacterSheetUri => !string.IsNullOrEmpty(CharacterSheetUri);
+        public bool HasCharacterSheetImageUri => !string.IsNullOrEmpty(CharacterSheetImageUri);
+    }
     public record TwitchChannel(Streamer StreamerId, string DisplayName, string ProfileImageUri, string ChannelUri);
 
     public enum Streamer
