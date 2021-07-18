@@ -36,3 +36,11 @@
 .ant-page-header.journal-page-header {
     margin-bottom: 1em;
 }
+
+.stream-card-space {
+    width: 100%;
+    justify-content: space-between;
+}
+.ant-space.stream-card-space {
+    align-items: flex-start;
+}
