@@ -1,45 +1,55 @@
 ﻿@page "/streams"
+@inject IEpisodesService EpisodesService
 
-@{ 
-    var streamsList = new HashSet<StreamInfo>();
-    streamsList.Add(new()
-    {
-        EpisodeNumber = 1,
-        StartDate = new DateTime(2021, 07, 09, 20, 0, 0),
-        EndDate = new DateTime(2021, 07, 09, 23, 0, 0),
-        Streamer = Streamer.OnStartTuCa,
-        Title = "Ouverture du Westmarch des terres perdues",
-        YouTubeEmbededUri = "https://www.youtube.com/embed/yt4xTDlBOQs",
-        DiscordLink = "https://discord.com/channels/662746189069942802/859589836225511424/860272989106339850",
-        EpisodeEntryLink = "/journals/season1/episode1",
-    });
-    streamsList.Add(new()
-    {
-        EpisodeNumber = 9,
-        StartDate = new DateTime(2021, 07, 28, 19, 30, 0),
-        EndDate = new DateTime(2021, 07, 28, 22, 30, 0),
-        Streamer = Streamer.Puppo,
-        // Title = "",
-        // YouTubeEmbededUri = "",
-        DiscordLink = "https://discord.com/channels/662746189069942802/859589836225511424/860273039534719047",
-    });
-}
-
+<PageHeader Class="journal-page-header" Title="Streams">
+    <PageHeaderBreadcrumb>
+        <Breadcrumb>
+            <BreadcrumbItem>
+                <a href="/">
+                    <Icon Type="home"></Icon>
+                    Accueil
+                </a>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <TwitchIcon />
+                Streams
+            </BreadcrumbItem>
+        </Breadcrumb>
+    </PageHeaderBreadcrumb>
+    <PageHeaderContent>
+        Liste des streams des Terres Perdues
+    </PageHeaderContent>
+</PageHeader>
 <Timeline Mode="alternate" Reverse="true">
-    @foreach (var stream in streamsList)
+    @if (EpisodesLoaded)
     {
-        if (stream.State == StreamState.Future)
+        foreach (var episode in Episodes)
         {
-            <TimelineItem Dot="futureIcon">
-                <StreamCard Info="stream" />
-            </TimelineItem>
+            if (episode.State == StreamState.Future)
+            {
+                <TimelineItem Dot="futureIcon">
+                    <StreamCard Info="episode" />
+                </TimelineItem>
+            }
+            else
+            {
+                <TimelineItem Dot="playIcon">
+                    <StreamCard Info="episode" />
+                </TimelineItem>
+            }
         }
-        else
-        {
-            <TimelineItem Dot="playIcon">
-                <StreamCard Info="stream" />
-            </TimelineItem>
-        }
+    }
+    else
+    {
+        <TimelineItem Dot="playIcon">
+            <StreamLoadingCard />
+        </TimelineItem>
+        <TimelineItem Dot="playIcon">
+            <StreamLoadingCard />
+        </TimelineItem>
+        <TimelineItem Dot="playIcon">
+            <StreamLoadingCard />
+        </TimelineItem>
     }
 </Timeline>
 
@@ -52,5 +62,13 @@ RenderFragment futureIcon =
 @<Template>
     <Icon Type="play-circle" Spin Style="font-size: 16px;" />
 </Template>;
+
+bool EpisodesLoaded => Episodes != null;
+IEnumerable<EpisodeInfo> Episodes;
+protected async override Task OnInitializedAsync()
+{
+await base.OnInitializedAsync();
+Episodes = await EpisodesService.AllAsync();
+}
 }
 

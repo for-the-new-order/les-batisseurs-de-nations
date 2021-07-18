@@ -1,28 +1,53 @@
 ﻿@inject UserOptions options;
+@inject IEpisodesService EpisodesService
 
 <Menu Mode="MenuMode.Inline"
       Theme="options.MenuTheme"
-      DefaultSelectedKeys=@(new[] {"1"})
-      DefaultOpenKeys=@(new[] {"sub1"})
-      Style="height: 100%; border-right: 0;">
-
-    <MenuItem Key="home" Icon="home" RouterLink="/">Accueil</MenuItem>
-    <SubMenu Key="journals" TitleTemplate="journalMenuItemContent">
-        <MenuItem Key="S01E01" RouterLink="/journals/season1/episode1">Episode 1</MenuItem>
+      DefaultOpenKeys=@(new[] { "seasons" })
+      DefaultSelectedKeys=@(new[] {"home"})>
+    @*Style="height: 100%; border-right: 0;"*@
+    <MenuItem Key="home" Icon="home" RouterLink="/" Title="Accueil" RouterMatch="NavLinkMatch.All"></MenuItem>
+    <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams" RouterMatch="NavLinkMatch.Prefix"></MenuItem>
+    <SubMenu Key="seasons" TitleTemplate="seasonsMenuItemContent">
+        @foreach (var season in Seasons)
+        {
+            var seasonKey = $"S{season.Number:00}";
+            var seasonTitle = $"Season {season.Number}";
+            <MenuItemGroup Key="@seasonKey" Title="@seasonTitle">
+                @foreach (var episode in season.EpisodesNumber)
+                {
+                    var episodeKey = $"S{season.Number:00}E{episode:00}";
+                    var episodeLink = $"/streams/seasons/{season.Number}/episodes/{episode}";
+                    var episodeTitle = $"Episode {episode}";
+                    <MenuItem Key="@episodeKey" RouterLink="@episodeLink" Title="@episodeTitle" RouterMatch="NavLinkMatch.All"></MenuItem>
+                }
+            </MenuItemGroup>
+        }
     </SubMenu>
-    <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams"></MenuItem>
 </Menu>
 
 @code{
     private readonly RenderFragment streamMenuItemContent =
     @<span>
         <TwitchIcon />
-        Streams
+        <span>Streams</span>
     </span>;
 
-    private readonly RenderFragment journalMenuItemContent =
+    private readonly RenderFragment seasonsMenuItemContent =
     @<span>
         <JournalIcon />
-        Journal
+        <span>Episodes</span>
     </span>;
+
+    IEnumerable<Season> Seasons { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        //State = PageState.Loading;
+        //await Task.Delay(2000);
+        Seasons = await EpisodesService.AllSeasons();
+        //Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
+        //State = Episode == null ? PageState.NotFound : PageState.Loaded;
+        }
 }

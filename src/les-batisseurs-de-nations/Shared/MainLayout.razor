@@ -6,16 +6,17 @@
         <div class="logo">Les batisseurs de nations</div>
     </Header>
     <Layout>
-        <Sider Theme="options.SiderTheme">
+        <Sider Theme="options.SiderTheme" Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
             <SiderMenu />
         </Sider>
         <Layout Style="min-height: calc(100vh - 134px);">
             @*<Breadcrumb Style="padding: 24px 24px 0 24px;">
-                <BreadcrumbItem>Home</BreadcrumbItem>
-            </Breadcrumb>*@
+            <BreadcrumbItem>Home</BreadcrumbItem>
+        </Breadcrumb>*@
             <Content Style="padding: 24px;" Class="dark-layout">
                 @Body
             </Content>
+            <BackTop></BackTop>
         </Layout>
     </Layout>
     <Footer Style="background: #001529; color: #CCC;">
@@ -23,16 +24,20 @@
             <Col Span="24" Style="text-align:center;">
             © 2021 <a href="https://github.com/for-the-new-order/les-batisseurs-de-nations" target="_blank">
                 <Icon Type="github" Theme="outline" Style="color: #EFEFEF;" />
-                Les Batisseurs de Nations</a>.
+                Les Batisseurs de Nations
+            </a>.
             Built by <a href="https://twitter.com/CarlHugoM" target="_blank">
                 <Icon Type="twitter" Theme="outline" />
-                Carl-Hugo Marcotte</a>.
+                Carl-Hugo Marcotte
+            </a>.
             An experiment powered by <a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/" target="_blank">
                 <DotNetIcon />
-                Blazor</a> & 
+                Blazor
+            </a> &
             <a href="https://antblazor.com/en-US/" target="_blank" title="Ant Design">
                 <Icon Type="ant-design" Theme="outline" Style="color:#C00;" />
-                Ant Design</a>.
+                Ant Design
+            </a>.
             </Col>
         </Row>
     </Footer>
@@ -51,3 +56,13 @@
         background: #fff;
     }
 </style>
+
+@code {
+    bool collapsed;
+
+    void onCollapse(bool collapsed)
+    {
+        Console.WriteLine(collapsed);
+        this.collapsed = collapsed;
+    }
+}

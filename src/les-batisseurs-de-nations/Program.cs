@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AntDesign;
+using LesBatisseursDeNations.Data;
 
 namespace LesBatisseursDeNations
 {
@@ -30,6 +31,15 @@ namespace LesBatisseursDeNations
         {
             services.AddAntDesign();
             services.AddSingleton(new UserOptions());
+
+            // Random
+            services.AddSingleton<Random>();
+
+            // Data
+            services.AddSingleton<Database>();
+            services.AddSingleton<ITwitchChannelsService, StaticDataService>();
+            services.AddSingleton<IPlayersService, StaticDataService>();
+            services.AddSingleton<IEpisodesService, StaticDataService>();
         }
     }
 }
