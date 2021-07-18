@@ -1,6 +1,25 @@
 ﻿@page "/streams"
 @inject IEpisodesService EpisodesService
 
+<PageHeader Class="journal-page-header" Title="Streams">
+    <PageHeaderBreadcrumb>
+        <Breadcrumb>
+            <BreadcrumbItem>
+                <a href="/">
+                    <Icon Type="home"></Icon>
+                    Accueil
+                </a>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <TwitchIcon />
+                Streams
+            </BreadcrumbItem>
+        </Breadcrumb>
+    </PageHeaderBreadcrumb>
+    <PageHeaderContent>
+        Liste des streams des Terres Perdues
+    </PageHeaderContent>
+</PageHeader>
 <Timeline Mode="alternate" Reverse="true">
     @if (EpisodesLoaded)
     {
@@ -36,22 +55,20 @@
 
 @code {
     RenderFragment playIcon =
-@<Template>
-    <Icon Type="play-circle" Style="font-size: 16px;" />
-</Template>;
-    RenderFragment futureIcon = 
+    @<Template>
+        <Icon Type="play-circle" Style="font-size: 16px;" />
+    </Template>;
+RenderFragment futureIcon =
 @<Template>
     <Icon Type="play-circle" Spin Style="font-size: 16px;" />
 </Template>;
 
-    bool EpisodesLoaded => Episodes != null;
-    IEnumerable<EpisodeInfo> Episodes;
-    protected async override Task OnInitializedAsync()
-    {
-        Console.WriteLine("OnInitializedAsync");
-        await base.OnInitializedAsync();
-        Episodes = await EpisodesService.AllAsync();
-        Console.WriteLine("Episodes: {0}", Episodes.Count());
-    }
+bool EpisodesLoaded => Episodes != null;
+IEnumerable<EpisodeInfo> Episodes;
+protected async override Task OnInitializedAsync()
+{
+await base.OnInitializedAsync();
+Episodes = await EpisodesService.AllAsync();
+}
 }
 

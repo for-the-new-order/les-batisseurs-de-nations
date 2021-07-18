@@ -60,9 +60,27 @@ namespace LesBatisseursDeNations.Data
                 CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/18926/858/character-52176074.jpeg",
                 IsTeamMember: false
             ));
-            var other = AddPlayer(new(
+
+            // Other players
+            var other1 = AddPlayer(new(
                 Id: -1,
-                DisplayName: "Autre joueur",
+                DisplayName: "Autre joueur 1",
+                ProfileImageUri: "",
+                CharacterSheetUri: "",
+                CharacterSheetImageUri: "",
+                IsTeamMember: false
+            ));
+            var other2 = AddPlayer(new(
+                Id: -2,
+                DisplayName: "Autre joueur 2",
+                ProfileImageUri: "",
+                CharacterSheetUri: "",
+                CharacterSheetImageUri: "",
+                IsTeamMember: false
+            ));
+            var other3 = AddPlayer(new(
+                Id: -3,
+                DisplayName: "Autre joueur 3",
                 ProfileImageUri: "",
                 CharacterSheetUri: "",
                 CharacterSheetImageUri: "",
@@ -120,7 +138,7 @@ namespace LesBatisseursDeNations.Data
                 EndDate: new DateTime(2021, 07, 28, 22, 30, 0),
                 YouTubeEmbededUri: "",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273039534719047",
-                Players: new[] { gur, dhanlbek, kilmi, other, other },
+                Players: new[] { gur, dhanlbek, kilmi, other1, other2 },
                 JournalEntries: default
             ));
         }

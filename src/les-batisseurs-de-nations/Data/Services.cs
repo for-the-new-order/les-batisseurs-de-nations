@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace LesBatisseursDeNations.Data
 {
-    public interface IJournalEntriesService
-    {
-        Task<IEnumerable<JournalEntry>> AllAsync();
-    }
     public interface IPlayersService
     {
         Task<IEnumerable<Player>> AllAsync();
@@ -21,9 +17,11 @@ namespace LesBatisseursDeNations.Data
     public interface IEpisodesService
     {
         Task<IEnumerable<EpisodeInfo>> AllAsync();
+        Task<EpisodeInfo> FindAsync(int seasonNumber, int episodeNumber);
+        Task<IEnumerable<Season>> AllSeasons();
     }
 
-    public class StaticDataService : IJournalEntriesService, IPlayersService, ITwitchChannelsService, IEpisodesService
+    public class StaticDataService : IPlayersService, ITwitchChannelsService, IEpisodesService
     {
         private readonly Database _database;
         public StaticDataService(Database database)
@@ -41,18 +39,33 @@ namespace LesBatisseursDeNations.Data
             return Task.FromResult(_database.Players.AsEnumerable());
         }
 
-        Task<IEnumerable<JournalEntry>> IJournalEntriesService.AllAsync()
-        {
-            var entries = _database.Episodes
-                .Where(e => e.HasJournalEntries)
-                .SelectMany(e => e.JournalEntries)
-            ;
-            return Task.FromResult(entries);
-        }
-
         Task<IEnumerable<EpisodeInfo>> IEpisodesService.AllAsync()
         {
             return Task.FromResult(_database.Episodes.AsEnumerable());
+        }
+
+        Task<IEnumerable<Season>> IEpisodesService.AllSeasons()
+        {
+            var seasons = _database.Episodes
+                .Select(x => x.Season)
+                .Distinct()
+                .OrderBy(x => x)
+                .Select(seasonNumber => new Season(
+                    seasonNumber, 
+                    _database.Episodes
+                        .Where(e => e.Season == seasonNumber)
+                        .Select(e => e.Episode)
+                        .Distinct()
+                        .OrderBy(x => x)
+                ));
+            return Task.FromResult(seasons);
+        }
+
+        Task<EpisodeInfo> IEpisodesService.FindAsync(int seasonNumber, int episodeNumber)
+        {
+            var episode = _database.Episodes
+                .FirstOrDefault(x => x.Season == seasonNumber && x.Episode == episodeNumber);
+            return Task.FromResult(episode);
         }
     }
 }

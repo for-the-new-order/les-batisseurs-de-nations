@@ -38,7 +38,6 @@ namespace LesBatisseursDeNations
             // Data
             services.AddSingleton<Database>();
             services.AddSingleton<ITwitchChannelsService, StaticDataService>();
-            services.AddSingleton<IJournalEntriesService, StaticDataService>();
             services.AddSingleton<IPlayersService, StaticDataService>();
             services.AddSingleton<IEpisodesService, StaticDataService>();
         }

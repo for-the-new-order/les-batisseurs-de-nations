@@ -82,4 +82,6 @@ namespace LesBatisseursDeNations.Data
         Future,
         MightStillBeOn,
     }
+
+    public record Season(int Number, IEnumerable<int> EpisodesNumber);
 }

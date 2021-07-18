@@ -3,12 +3,12 @@
  
 <Card Bordered Title="@CardTitle" Id="@CardId">
     <CardTabs>
-        <Tabs DefaultActiveKey="3">
+        <Tabs DefaultActiveKey="1">
             <TabPane Key="1">
                 <Tab>Episode</Tab>
                 <ChildContent>
                     <Space Align="left" Class="stream-card-space">
-                        <SpaceItem Style="text-align: left;">
+                        <SpaceItem Style="text-align: center;">
                             <Tooltip Title=@Info.Streamer.DisplayName Placement="PlacementType.Top">
                                 <Unbound>
                                     <Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" RefBack="@context" />
@@ -36,7 +36,7 @@
                             </AvatarGroup>
                         </SpaceItem>
                         <SpaceItem>
-                            <p>@Description</p>
+                            <p>@Info.GetPlayDescription(options)</p>
                             @if (!string.IsNullOrEmpty(Info.Description))
                             {
                                 <p>@Info.Description</p>
@@ -127,6 +127,15 @@
     </CardTabs>
     <ActionTemplate>
         <CardAction>
+            <Badge Count="@Info.JournalEntries?.Count()" Size="small">
+                <a href="/streams/seasons/@Info.Season/episodes/@Info.Episode"
+                   title="Voir les détails de l'épisode @Info.Episode de la saison @Info.Season">
+                    <JournalIcon />
+                    Voir les détails de l'épisode
+                </a>
+            </Badge>
+        </CardAction>
+        <CardAction>
             <a href="@Info.Streamer.ChannelUri"
                title="Twitch channel: @Info.Streamer.DisplayName"
                target="_blank">
@@ -172,14 +181,6 @@
         StreamState.MightStillBeOn => "L'épisode est peut-être encore en cours",
         StreamState.Ended when Info.HasTitle => Info.Title,
         _ => "Terminé"
-    };
-
-    private string Description => Info.State switch
-    {
-        StreamState.Ended => $"L'épisode a joué {Info.StartDate.ToString("dddd le d MMMM yyyy", options.Culture)}",
-        _ when Info.StartDate.DayOfYear == Info.EndDate.DayOfYear => $"Débute {Info.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} à {Info.EndDate.ToString("h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
-        _ => $"Débute {Info.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} et prend fin {Info.EndDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
-
     };
 
     [Parameter]
