@@ -1,6 +1,7 @@
 ﻿@inject UserOptions options
 @inject Random Random
- 
+@using AntDesign
+
 <Card Bordered Title="@CardTitle" Id="@CardId">
     <CardTabs>
         <Tabs DefaultActiveKey="1">
@@ -169,20 +170,20 @@
 </Card>
 
 @code{
-    private RenderFragment avatar => @<Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" />;
+    private RenderFragment avatar =>@<Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" />;
 
-    private string CardId => $"card-season-{Info.Season}-episode-{Info.Episode}";
+private string CardId => $"card-season-{Info.Season}-episode-{Info.Episode}";
 
-    private string CardTitle => $"Epidode {Info.Episode}: " + Info.State switch
-    {
-        StreamState.Future => "Prochain épisode des Batisseurs de Nations",
-        StreamState.StartingSoon => "Démarrage du stream imminent",
-        StreamState.Playing => "Épisode en cours",
-        StreamState.MightStillBeOn => "L'épisode est peut-être encore en cours",
-        StreamState.Ended when Info.HasTitle => Info.Title,
-        _ => "Terminé"
-    };
+private string CardTitle => $"Epidode {Info.Episode}: " + Info.State switch
+{
+StreamState.Future => "Prochain épisode des Batisseurs de Nations",
+StreamState.StartingSoon => "Démarrage du stream imminent",
+StreamState.Playing => "Épisode en cours",
+StreamState.MightStillBeOn => "L'épisode est peut-être encore en cours",
+StreamState.Ended when Info.HasTitle => Info.Title,
+_ => "Terminé"
+};
 
-    [Parameter]
-    public EpisodeInfo Info { get; set; }
+[Parameter]
+public EpisodeInfo Info { get; set; }
 }

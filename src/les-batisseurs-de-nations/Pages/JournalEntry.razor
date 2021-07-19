@@ -2,6 +2,7 @@
 @inject IEpisodesService EpisodesService
 @inject UserOptions options
 @inject Random Random
+@using AntDesign
 
 <PageHeader Class="journal-page-header" Title="@Title">
     <PageHeaderBreadcrumb>
@@ -196,7 +197,7 @@
         //await Task.Delay(2000);
         Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
         State = Episode == null ? PageState.NotFound : PageState.Loaded;
-        if(Episode != null)
+        if (Episode != null)
         {
             PlayersWithSheet = Episode.Players;//.Where(p => p.HasCharacterSheetImageUri);
         }

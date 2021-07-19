@@ -1,7 +1,26 @@
 ﻿@page "/streams"
 @inject IEpisodesService EpisodesService
 
-<PageHeader Class="journal-page-header" Title="Streams">
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-5">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper>
+                <MudBreadcrumbs Items="_items" Separator=">"></MudBreadcrumbs>
+                <MudText Typo="Typo.h1" Class="mx-4">Streams</MudText>
+                <MudText Class="pa-4">
+                    Liste des streams des Terres Perdues
+                </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="6">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=12</MudPaper>
+        </MudItem>
+        <MudItem xs="6">
+            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=12</MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+@*<PageHeader Class="journal-page-header" Title="Streams">
     <PageHeaderBreadcrumb>
         <Breadcrumb Separator=">">
             <BreadcrumbItem>
@@ -51,24 +70,30 @@
             <StreamLoadingCard />
         </TimelineItem>
     }
-</Timeline>
+</Timeline>*@
 
 @code {
-    RenderFragment playIcon =
+    @*RenderFragment playIcon =
     @<Template>
         <Icon Type="play-circle" Style="font-size: 16px;" />
     </Template>;
-RenderFragment futureIcon =
-@<Template>
-    <Icon Type="play-circle" Spin Style="font-size: 16px;" />
-</Template>;
+    RenderFragment futureIcon =
+    @<Template>
+        <Icon Type="play-circle" Spin Style="font-size: 16px;" />
+    </Template>;*@
 
-bool EpisodesLoaded => Episodes != null;
-IEnumerable<EpisodeInfo> Episodes;
-protected async override Task OnInitializedAsync()
-{
-await base.OnInitializedAsync();
-Episodes = await EpisodesService.AllAsync();
-}
+    bool EpisodesLoaded => Episodes != null;
+    IEnumerable<EpisodeInfo> Episodes;
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Episodes = await EpisodesService.AllAsync();
+    }
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Accueil", href: "/", icon: MudBlazor.Icons.Outlined.Home),
+        new BreadcrumbItem("Streams", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.PlayArrow),
+    };
 }
 
