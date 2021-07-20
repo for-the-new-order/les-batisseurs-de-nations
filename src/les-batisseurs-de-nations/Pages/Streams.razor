@@ -12,76 +12,34 @@
                 </MudText>
             </MudPaper>
         </MudItem>
-        <MudItem xs="6">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=12</MudPaper>
-        </MudItem>
-        <MudItem xs="6">
-            <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=12</MudPaper>
-        </MudItem>
     </MudGrid>
-</MudContainer>
-@*<PageHeader Class="journal-page-header" Title="Streams">
-    <PageHeaderBreadcrumb>
-        <Breadcrumb Separator=">">
-            <BreadcrumbItem>
-                <a href="/">
-                    <Icon Type="home"></Icon>
-                    Accueil
-                </a>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-                <TwitchIcon />
-                Streams
-            </BreadcrumbItem>
-        </Breadcrumb>
-    </PageHeaderBreadcrumb>
-    <PageHeaderContent>
-        Liste des streams des Terres Perdues
-    </PageHeaderContent>
-</PageHeader>
-<Timeline Mode="alternate" Reverse="true">
-    @if (EpisodesLoaded)
-    {
-        foreach (var episode in Episodes)
+
+    <MudGrid Justify="Justify.Center">
+        @if (EpisodesLoaded)
         {
-            if (episode.State == StreamState.Future)
+            foreach (var episode in Episodes)
             {
-                <TimelineItem Dot="futureIcon">
+                <MudItem md="6">
                     <StreamCard Info="episode" />
-                </TimelineItem>
-            }
-            else
-            {
-                <TimelineItem Dot="playIcon">
-                    <StreamCard Info="episode" />
-                </TimelineItem>
+                </MudItem>
             }
         }
-    }
-    else
-    {
-        <TimelineItem Dot="playIcon">
-            <StreamLoadingCard />
-        </TimelineItem>
-        <TimelineItem Dot="playIcon">
-            <StreamLoadingCard />
-        </TimelineItem>
-        <TimelineItem Dot="playIcon">
-            <StreamLoadingCard />
-        </TimelineItem>
-    }
-</Timeline>*@
+        else
+        {
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
 
 @code {
-    @*RenderFragment playIcon =
-    @<Template>
-        <Icon Type="play-circle" Style="font-size: 16px;" />
-    </Template>;
-    RenderFragment futureIcon =
-    @<Template>
-        <Icon Type="play-circle" Spin Style="font-size: 16px;" />
-    </Template>;*@
-
     bool EpisodesLoaded => Episodes != null;
     IEnumerable<EpisodeInfo> Episodes;
     protected async override Task OnInitializedAsync()
