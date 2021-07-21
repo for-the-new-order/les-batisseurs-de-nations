@@ -88,4 +88,5 @@
     .youtube-iframe-container .youtube-empty {
         text-align: center;
         padding-top: calc(56.25% - 290px);
+        border: 1px solid var(--mud-palette-lines-default);
     }
