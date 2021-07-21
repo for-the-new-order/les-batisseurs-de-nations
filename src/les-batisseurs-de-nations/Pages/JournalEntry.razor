@@ -2,149 +2,154 @@
 @inject IEpisodesService EpisodesService
 @inject UserOptions options
 @inject Random Random
-@using AntDesign
 
-<PageHeader Class="journal-page-header" Title="@Title">
-    <PageHeaderBreadcrumb>
-        <Breadcrumb Separator=">">
-            <BreadcrumbItem>
-                <a href="/">
-                    <Icon Type="home"></Icon>
-                    Accueil
-                </a>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-                <a href="/streams">
-                    <TwitchIcon />
-                    Streams
-                </a>
-            </BreadcrumbItem>
-            <BreadcrumbItem>@SubTitle</BreadcrumbItem>
-        </Breadcrumb>
-    </PageHeaderBreadcrumb>
-    <PageHeaderContent>
-        @switch (State)
-        {
-            case PageState.NotLoaded:
-            case PageState.Loading:
-                <Skeleton Active="true" Avatar="true" ParagraphRows="10"></Skeleton>
-                break;
-            case PageState.Loaded:
-                @Episode.GetPlayDescription(options)
-                break;
-            default:
-                <Result Status="404"
-                        Title="Episode introuvable"
-                        SubTitle="L'épisode que vous recherchez n'existe pas." />
-                break;
-        }
-    </PageHeaderContent>
-</PageHeader>
+<PageHeader Title="@Title" Description="@Episode.GetPlayDescription(options)" Items="_items" />
 
-<Row Gutter="8">
-    <AntDesign.Col Class="gutter-row" Span="12">
-        <PageHeader Class="journal-page-header">
-            <PageHeaderTitle>Chaine</PageHeaderTitle>
-            <PageHeaderContent>
-                Cet épisode est présenté sur la chaine <a href="@Episode.Streamer.ChannelUri" target="_blank">@Episode.Streamer.DisplayName</a>
-            </PageHeaderContent>
-            <PageHeaderAvatar>
-                <Tooltip Title=@Episode.Streamer.DisplayName Placement="PlacementType.Right">
-                    <Unbound>
-                        <a href="@Episode.Streamer.ChannelUri" target="_blank">
-                            <Avatar Src="@Episode.Streamer.ProfileImageUri" Alt="@Episode.Streamer.DisplayName" RefBack="@context" />
-                        </a>
-                    </Unbound>
-                </Tooltip>
 
-            </PageHeaderAvatar>
-        </PageHeader>
 
-        <Card Bordered="false">
-            <ChildContent>
-                @if (Episode.HasYouTubeUri)
-                {
-                    <div style="text-align: center;">
-                        <iframe src="@Episode.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                }
-                else
-                {
-                    <Empty Simple>
-                        <ImageTemplate>
-                            <Icon Type="video-camera" Theme="outline" Style="font-size: 40px;" />
-                        </ImageTemplate>
-                        <DescriptionTemplate>
-                            Enregistrement non disponible
-                        </DescriptionTemplate>
-                    </Empty>
-                }
-            </ChildContent>
-        </Card>
+@*@using AntDesign
 
-        <Divider Text="Personnages" />
-        <Tabs TabPosition="@TabPosition.Left">
-            @foreach (var character in PlayersWithSheet)
+    <PageHeader Class="journal-page-header" Title="@Title">
+        <PageHeaderBreadcrumb>
+            <Breadcrumb Separator=">">
+                <BreadcrumbItem>
+                    <a href="/">
+                        <Icon Type="home"></Icon>
+                        Accueil
+                    </a>
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                    <a href="/streams">
+                        <TwitchIcon />
+                        Streams
+                    </a>
+                </BreadcrumbItem>
+                <BreadcrumbItem>@SubTitle</BreadcrumbItem>
+            </Breadcrumb>
+        </PageHeaderBreadcrumb>
+        <PageHeaderContent>
+            @switch (State)
             {
-                var disabled = !character.HasCharacterSheetUri;
-                <TabPane Key="@($"character-{character.Id}")" Disabled="disabled">
-                    <Tab>
-                        @if (character.HasProfileImageUri)
-                        {
-                            <Avatar Src="@character.ProfileImageUri" />
-                        }
-                        else
-                        {
-                            var style = "background-color: #CCC;";
-                            <Avatar Style="@style" Icon="user" />
-                        }
-                        &nbsp;@character.DisplayName
-                    </Tab>
-                    <ChildContent>
-                        <a href="@character.CharacterSheetUri" target="_blank">
-                            <Image Src="@character.CharacterSheetImageUri" Alt="@($"Fiche de {character.DisplayName}")" />
-                        </a>
-                    </ChildContent>
-                </TabPane>
+                case PageState.NotLoaded:
+                case PageState.Loading:
+                    <Skeleton Active="true" Avatar="true" ParagraphRows="10"></Skeleton>
+                    break;
+                case PageState.Loaded:
+                    @Episode.GetPlayDescription(options)
+                    break;
+                default:
+                    <Result Status="404"
+                            Title="Episode introuvable"
+                            SubTitle="L'épisode que vous recherchez n'existe pas." />
+                    break;
             }
-        </Tabs>
-    </AntDesign.Col>
-    <AntDesign.Col Class="gutter-row" Span="12">
-        <PageHeader Class="journal-page-header">
-            <PageHeaderTitle>Journal des batisseurs de nations</PageHeaderTitle>
-            <PageHeaderContent>Rapports de missions</PageHeaderContent>
-        </PageHeader>
-        @if (Episode.HasJournalEntries)
-        {
-            foreach (var entry in Episode.JournalEntries)
+        </PageHeaderContent>
+    </PageHeader>
+
+    <Row Gutter="8">
+        <AntDesign.Col Class="gutter-row" Span="12">
+            <PageHeader Class="journal-page-header">
+                <PageHeaderTitle>Chaine</PageHeaderTitle>
+                <PageHeaderContent>
+                    Cet épisode est présenté sur la chaine <a href="@Episode.Streamer.ChannelUri" target="_blank">@Episode.Streamer.DisplayName</a>
+                </PageHeaderContent>
+                <PageHeaderAvatar>
+                    <Tooltip Title=@Episode.Streamer.DisplayName Placement="PlacementType.Right">
+                        <Unbound>
+                            <a href="@Episode.Streamer.ChannelUri" target="_blank">
+                                <Avatar Src="@Episode.Streamer.ProfileImageUri" Alt="@Episode.Streamer.DisplayName" RefBack="@context" />
+                            </a>
+                        </Unbound>
+                    </Tooltip>
+
+                </PageHeaderAvatar>
+            </PageHeader>
+
+            <Card Bordered="false">
+                <ChildContent>
+                    @if (Episode.HasYouTubeUri)
+                    {
+                        <div style="text-align: center;">
+                            <iframe src="@Episode.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    }
+                    else
+                    {
+                        <Empty Simple>
+                            <ImageTemplate>
+                                <Icon Type="video-camera" Theme="outline" Style="font-size: 40px;" />
+                            </ImageTemplate>
+                            <DescriptionTemplate>
+                                Enregistrement non disponible
+                            </DescriptionTemplate>
+                        </Empty>
+                    }
+                </ChildContent>
+            </Card>
+
+            <Divider Text="Personnages" />
+            <Tabs TabPosition="@TabPosition.Left">
+                @foreach (var character in PlayersWithSheet)
+                {
+                    var disabled = !character.HasCharacterSheetUri;
+                    <TabPane Key="@($"character-{character.Id}")" Disabled="disabled">
+                        <Tab>
+                            @if (character.HasProfileImageUri)
+                            {
+                                <Avatar Src="@character.ProfileImageUri" />
+                            }
+                            else
+                            {
+                                var style = "background-color: #CCC;";
+                                <Avatar Style="@style" Icon="user" />
+                            }
+                            &nbsp;@character.DisplayName
+                        </Tab>
+                        <ChildContent>
+                            <a href="@character.CharacterSheetUri" target="_blank">
+                                <Image Src="@character.CharacterSheetImageUri" Alt="@($"Fiche de {character.DisplayName}")" />
+                            </a>
+                        </ChildContent>
+                    </TabPane>
+                }
+            </Tabs>
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="12">
+            <PageHeader Class="journal-page-header">
+                <PageHeaderTitle>Journal des batisseurs de nations</PageHeaderTitle>
+                <PageHeaderContent>Rapports de missions</PageHeaderContent>
+            </PageHeader>
+            @if (Episode.HasJournalEntries)
+            {
+                foreach (var entry in Episode.JournalEntries)
+                {
+                    <Card Bordered="false">
+                        <ChildContent>
+                            <Descriptions Column="2" Bordered Style="margin-bottom: 16px;">
+                                <DescriptionsItem Title="Auteur" Span="1">
+                                    @if (entry.Author.HasProfileImageUri)
+                                    {
+                                        <Avatar Src="@entry.Author.ProfileImageUri" Size="50" />
+                                    }
+                                    &nbsp;@entry.Author.DisplayName
+                                </DescriptionsItem>
+                                <DescriptionsItem Title="Date de publication" Span="1">@entry.PublishedDate.ToString("D", options.Culture)</DescriptionsItem>
+                            </Descriptions>
+                            @((MarkupString)entry.Content)
+                        </ChildContent>
+                    </Card>
+                }
+            }
+            else
             {
                 <Card Bordered="false">
                     <ChildContent>
-                        <Descriptions Column="2" Bordered Style="margin-bottom: 16px;">
-                            <DescriptionsItem Title="Auteur" Span="1">
-                                @if (entry.Author.HasProfileImageUri)
-                                {
-                                    <Avatar Src="@entry.Author.ProfileImageUri" Size="50" />
-                                }
-                                &nbsp;@entry.Author.DisplayName
-                            </DescriptionsItem>
-                            <DescriptionsItem Title="Date de publication" Span="1">@entry.PublishedDate.ToString("D", options.Culture)</DescriptionsItem>
-                        </Descriptions>
-                        @((MarkupString)entry.Content)
+                        <Empty Simple Description="@("Aucune entrée de journal disponible")" />
                     </ChildContent>
                 </Card>
             }
-        }
-        else
-        {
-            <Card Bordered="false">
-                <ChildContent>
-                    <Empty Simple Description="@("Aucune entrée de journal disponible")" />
-                </ChildContent>
-            </Card>
-        }
-    </AntDesign.Col>
-</Row>
+        </AntDesign.Col>
+    </Row>*@
 
 
 @*<PageHeader Class="journal-page-header">
@@ -211,15 +216,23 @@
         NotFound
     }
 
-    private ListGridType gutter = new ListGridType
+    //private ListGridType gutter = new ListGridType
+    //{
+    //    Gutter = 8,
+    //    Xs = 1,
+    //    Sm = 2,
+    //    Md = 4,
+    //    Lg = 4,
+    //    Xl = 6,
+    //    Xxl = 3,
+    //    Column = 2
+    //};
+
+    private List<BreadcrumbItem> _items => new List<BreadcrumbItem>
     {
-        Gutter = 8,
-        Xs = 1,
-        Sm = 2,
-        Md = 4,
-        Lg = 4,
-        Xl = 6,
-        Xxl = 3,
-        Column = 2
+        new BreadcrumbItem("Accueil", href: "/", icon: MudBlazor.Icons.Outlined.Home),
+        new BreadcrumbItem("Streams", href: "/streams", icon: MudBlazor.Icons.Outlined.PlayArrow),
+        new BreadcrumbItem(SubTitle, href: null, disabled: true, icon: MudBlazor.Icons.Outlined.PlayArrow),
     };
+
 }

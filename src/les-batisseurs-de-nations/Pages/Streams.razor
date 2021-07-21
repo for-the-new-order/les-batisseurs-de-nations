@@ -1,19 +1,8 @@
 ﻿@page "/streams"
 @inject IEpisodesService EpisodesService
 
+<PageHeader Title="Streams" Description="Liste des streams des Terres Perdues" Items="_items" />
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
-    <MudGrid>
-        <MudItem xs="12">
-            <MudPaper>
-                <MudBreadcrumbs Items="_items" Separator=">"></MudBreadcrumbs>
-                <MudText Typo="Typo.h1" Class="mx-4">Streams</MudText>
-                <MudText Class="pa-4">
-                    Liste des streams des Terres Perdues
-                </MudText>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
-
     <MudGrid Justify="Justify.Center">
         @if (EpisodesLoaded)
         {
