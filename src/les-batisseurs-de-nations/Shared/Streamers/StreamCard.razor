@@ -11,17 +11,25 @@
             <MudText Typo="Typo.body2">@Info.Streamer.DisplayName</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            @{
-                var count = Info.JournalEntries?.Count() ?? 0;
-                var color = count > 0 ? Color.Success : Color.Default;
-                var icon = count > 0 ? MudBlazor.Icons.Filled.RemoveRedEye : MudBlazor.Icons.Outlined.RemoveRedEye;
-            }
-            <MudIconButton 
-                Color="color" 
-                Icon="@icon" 
-                Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")"
-                Title="Voir les détails de l'épisode"
-            />
+            <div class="ma-3">
+                @foreach (var player in Info.Players)
+                {
+                    var size = player.IsTeamMember ? Size.Medium : Size.Medium;
+                    <MudTooltip Text="@player.DisplayName" Placement="Placement.Top">
+                        @if (player.HasProfileImageUri)
+                        {
+                            <MudAvatar Image="@player.ProfileImageUri" Size="@size" Class="ml-n3" />
+                        }
+                        else
+                        {
+                            var style = string.Format("background-color: #333; color: #666; border:1px solid #444;");
+                            <MudAvatar Size="@Size.Small" Class="ml-n1" Variant="Variant.Filled" Style="@style">
+                                <MudIcon Icon="iconfont icon-user" />
+                            </MudAvatar>
+                        }
+                    </MudTooltip>
+                }
+            </div>
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent>
@@ -31,26 +39,6 @@
             <MudText Typo="Typo.body2">@Info.Description</MudText>
         }
 
-        <div class="ma-3">
-            @foreach (var player in Info.Players)
-            {
-                var size = player.IsTeamMember ? Size.Medium : Size.Medium;
-                <MudTooltip Text="@player.DisplayName" Placement="Placement.Top">
-                    @if (player.HasProfileImageUri)
-                    {
-                        <MudAvatar Image="@player.ProfileImageUri" Size="@size" Class="ml-n3" />
-                    }
-                    else
-                    {
-                        var style = string.Format("background-color: #333; color: #666; border:1px solid #444;");
-                        <MudAvatar Size="@size" Class="ml-n2" Variant="Variant.Filled" Style="@style">
-                            <MudIcon Icon="iconfont icon-user" />
-                        </MudAvatar>
-                    }
-                </MudTooltip>
-            }
-        </div>
-
         @if (Info.HasYouTubeUri)
         {
             <MudPaper Elevation="0" Class="youtube-iframe-container mt-3">
@@ -59,11 +47,33 @@
         }
         else
         {
-            <MudPaper Elevation="0" Class="mt-3" Height="200px">
-
+            <MudPaper Elevation="1" Class="youtube-iframe-container mt-3" Outlined="true">
+                <div class="youtube-empty">
+                    <MudIcon Style="font-size: 5rem;" Icon="@Icons.Filled.Videocam" />
+                    <MudText Style="font-size: 2rem;">Enregistrement non disponible</MudText>
+                </div>
             </MudPaper>
         }
     </MudCardContent>
+    <MudCardActions Class="justify-flex-end">
+        @{
+            var count = Info.JournalEntries?.Count() ?? 0;
+            var icon = count > 0 ? MudBlazor.Icons.Filled.RemoveRedEye : MudBlazor.Icons.Outlined.RemoveRedEye;
+        }
+        @if (count > 0)
+        {
+            var color = count > 0 ? Color.Success : Color.Default;
+            <MudBadge Content="@count" Color="color" Overlap="true">
+                <MudButton StartIcon="@icon"
+                           Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+            </MudBadge>
+        }
+        else
+        {
+            <MudButton StartIcon="@icon"
+                       Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+        }
+    </MudCardActions>
 </MudCard>
 
 
