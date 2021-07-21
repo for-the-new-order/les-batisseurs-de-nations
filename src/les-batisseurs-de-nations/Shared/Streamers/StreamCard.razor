@@ -11,62 +11,59 @@
             <MudText Typo="Typo.body2">@Info.Streamer.DisplayName</MudText>
         </CardHeaderContent>
         <CardHeaderActions>
-            <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+            @{
+                var count = Info.JournalEntries?.Count() ?? 0;
+                var color = count > 0 ? Color.Success : Color.Default;
+                var icon = count > 0 ? MudBlazor.Icons.Filled.RemoveRedEye : MudBlazor.Icons.Outlined.RemoveRedEye;
+            }
+            <MudIconButton 
+                Color="color" 
+                Icon="@icon" 
+                Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")"
+                Title="Voir les détails de l'épisode"
+            />
         </CardHeaderActions>
     </MudCardHeader>
     <MudCardContent>
-        <MudText Typo="Typo.body2">@Info.GetPlayDescription(options)</MudText>
+        <MudText Typo="Typo.body1">@Info.GetPlayDescription(options)</MudText>
         @if (!string.IsNullOrEmpty(Info.Description))
         {
             <MudText Typo="Typo.body2">@Info.Description</MudText>
         }
+
+        <div class="ma-3">
+            @foreach (var player in Info.Players)
+            {
+                var size = player.IsTeamMember ? Size.Medium : Size.Medium;
+                <MudTooltip Text="@player.DisplayName" Placement="Placement.Top">
+                    @if (player.HasProfileImageUri)
+                    {
+                        <MudAvatar Image="@player.ProfileImageUri" Size="@size" Class="ml-n3" />
+                    }
+                    else
+                    {
+                        var style = string.Format("background-color: #333; color: #666; border:1px solid #444;");
+                        <MudAvatar Size="@size" Class="ml-n2" Variant="Variant.Filled" Style="@style">
+                            <MudIcon Icon="iconfont icon-user" />
+                        </MudAvatar>
+                    }
+                </MudTooltip>
+            }
+        </div>
+
         @if (Info.HasYouTubeUri)
         {
-        <MudPaper Elevation="0" Class="youtube-iframe-container mt-3">
-            <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </MudPaper>
+            <MudPaper Elevation="0" Class="youtube-iframe-container mt-3">
+                <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </MudPaper>
+        }
+        else
+        {
+            <MudPaper Elevation="0" Class="mt-3" Height="200px">
+
+            </MudPaper>
         }
     </MudCardContent>
-    <MudCardActions>
-        @{
-            var count = Info.JournalEntries?.Count() ?? 0;
-            var color = count > 0 ? Color.Success : Color.Default;
-        }        
-        <MudDivider Vertical="true" FlexItem="true" />
-        <MudButton Variant="Variant.Text" Color="color" Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">
-            <MudIcon Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark" />&nbsp;
-            Voir les détails de l'épisode
-        </MudButton>
-        <MudDivider Vertical="true" FlexItem="true" />
-        <MudButton Variant="Variant.Text" Link="@Info.Streamer.ChannelUri" Target="_blank">
-            <MudIcon Icon="@MudBlazor.Icons.Outlined.PlayArrow" />&nbsp;
-            @Info.Streamer.DisplayName
-        </MudButton>
-        <MudDivider Vertical="true" FlexItem="true" />
-        @*
-        @if (Info.HasYouTubeUri)
-        {
-            <CardAction>
-                <a href="@Info.YouTubeEmbededUri"
-                   title="Voir la vidéo en plein écran"
-                   target="_blank">
-                    <Icon Type="fullscreen" Theme="outline" />
-                    Voir la vidéo en plein écran
-                </a>
-            </CardAction>
-        }
-        @if (Info.HasDiscordLink)
-        {
-            <CardAction>
-                <a href="@Info.DiscordLink"
-                   title="Lien vers l'événement Discord"
-                   target="_blank">
-                    <DiscordIcon />
-                    Lien vers l'événement Discord
-                </a>
-            </CardAction>
-        }*@
-    </MudCardActions>
 </MudCard>
 
 

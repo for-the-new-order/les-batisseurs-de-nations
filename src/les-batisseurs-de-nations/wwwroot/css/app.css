@@ -8,10 +8,25 @@
     min-height: 100vh;
 }
 
-.batisseurs-de-nations #blazor-error-ui {
-    background-color: var(--mud-palette-drawer-background);
+.batisseurs-de-nations{
+
 }
-/*#blazor-error-ui {
+    .batisseurs-de-nations #blazor-error-ui {
+        background-color: var(--mud-palette-drawer-background);
+    }
+
+    .batisseurs-de-nations .text-align-right {
+        text-align: right;
+    }
+
+    .batisseurs-de-nations .text-align-left {
+        text-align: left;
+    }
+
+    .batisseurs-de-nations .justify-flex-end {
+        justify-content: flex-end;
+    }
+    /*#blazor-error-ui {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -30,15 +45,15 @@
         top: 0.5rem;
     }
 */
-/*.dark-layout {
+    /*.dark-layout {
     background: #191d21;
 }
     .dark-layout .ant-timeline {
         color: #d3d3d3;
     }*/
-.dark-layout .ant-timeline-item-head {
-    background-color: transparent;
-}
+    .dark-layout .ant-timeline-item-head {
+        background-color: transparent;
+    }
 
 .ant-page-header.journal-page-header {
     margin-bottom: 1em;
