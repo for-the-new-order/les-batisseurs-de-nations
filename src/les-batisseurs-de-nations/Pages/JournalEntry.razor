@@ -45,7 +45,7 @@
                 <MudItem md="6">
                     <MudCard>
                         <MudCardContent>
-                            <MudTabs Position="@Position.Left" Border="true"
+                            <MudTabs Position="@Position.Left" Border="true" @ref="CharacterTabsRef"
                                      ApplyEffectsToContainer="true" PanelClass="pa-6" TabPanelClass="justify-flex-end">
                                 @foreach (var character in PlayersWithSheet)
                                 {
@@ -130,8 +130,9 @@
         State = Episode == null ? PageState.NotFound : PageState.Loaded;
         if (Episode != null)
         {
-            PlayersWithSheet = Episode.Players;//.Where(p => p.HasCharacterSheetImageUri);
+            PlayersWithSheet = Episode.Players;
         }
+        CharacterTabsRef?.ActivatePanel(0);
     }
 
     enum PageState
@@ -142,18 +143,6 @@
         NotFound
     }
 
-    //private ListGridType gutter = new ListGridType
-    //{
-    //    Gutter = 8,
-    //    Xs = 1,
-    //    Sm = 2,
-    //    Md = 4,
-    //    Lg = 4,
-    //    Xl = 6,
-    //    Xxl = 3,
-    //    Column = 2
-    //};
-
     private List<BreadcrumbItem> _items => new List<BreadcrumbItem>
 {
         new BreadcrumbItem("Accueil", href: "/", icon: MudBlazor.Icons.Outlined.Home),
@@ -162,4 +151,6 @@
     };
 
     private string HeaderDescription => $"Épisode du {Episode.StartDate.ToString("D", options.Culture)}";
+
+    private MudTabs CharacterTabsRef { get; set; }
 }
