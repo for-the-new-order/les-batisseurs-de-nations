@@ -1,0 +1,11 @@
+﻿<MudPaper Class="pa-16 ma-8">
+    <MudText Align="Align.Center" Typo="@Typo.h5">@Title</MudText>
+    <MudText Align="Align.Center" Typo="@Typo.subtitle1">@Description</MudText>
+</MudPaper>
+
+@code{
+    [Parameter]
+    public string Title { get; set; } = "404";
+    [Parameter]
+    public string Description { get; set; } = "Cette page n'existe pas.";
+}

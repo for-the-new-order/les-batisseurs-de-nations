@@ -1,175 +1,88 @@
 ﻿@inject UserOptions options
 @inject Random Random
- 
-<Card Bordered Title="@CardTitle" Id="@CardId">
-    <CardTabs>
-        <Tabs DefaultActiveKey="1">
-            <TabPane Key="1">
-                <Tab>Episode</Tab>
-                <ChildContent>
-                    <Space Align="left" Class="stream-card-space">
-                        <SpaceItem Style="text-align: center;">
-                            <Tooltip Title=@Info.Streamer.DisplayName Placement="PlacementType.Top">
-                                <Unbound>
-                                    <Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" RefBack="@context" />
-                                </Unbound>
-                            </Tooltip>
-                            <Divider />
-                            <AvatarGroup>
-                                @foreach (var player in Info.Players)
-                                {
-                                    var size = player.IsTeamMember ? "large" : "default";
-                                    <Tooltip Title=@player.DisplayName Placement="PlacementType.Bottom">
-                                        <Unbound>
-                                            @if (player.HasProfileImageUri)
-                                            {
-                                                <Avatar Src="@player.ProfileImageUri" RefBack="@context" Size="@size" />
-                                            }
-                                            else
-                                            {
-                                                var style = string.Format("background-color: #{0:X6};", Random.Next(0x1000000));
-                                                <Avatar Style="@style" Icon="user" RefBack="@context" />
-                                            }
-                                        </Unbound>
-                                    </Tooltip>
-                                }
-                            </AvatarGroup>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <p>@Info.GetPlayDescription(options)</p>
-                            @if (!string.IsNullOrEmpty(Info.Description))
-                            {
-                                <p>@Info.Description</p>
-                            }
-                            else if (Info.HasYouTubeUri)
-                            {
-                                <p>&nbsp;</p>
-                            }
-                            @if (Info.HasYouTubeUri)
-                            {
-                                <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                            }
-                        </SpaceItem>
-                    </Space>
-                </ChildContent>
-            </TabPane>
-            <TabPane Key="2">
-                <Tab>Joueurs</Tab>
-                <ChildContent>
-                    <AntList DataSource="@Info.Players.Where(p => p.HasCharacterSheetImageUri)" TItem="Player">
-                        <ListItem>
-                            <ListItemMeta>
-                                <DescriptionTemplate>
-                                    <a href="@context.CharacterSheetUri" target="_blank">
-                                        <Image Src="@context.CharacterSheetImageUri" Alt="@($"Fiche de {context.DisplayName}")" />
-                                    </a>
-                                </DescriptionTemplate>
-                            </ListItemMeta>
-                        </ListItem>
-                    </AntList>
-                </ChildContent>
-            </TabPane>
-            @if (Info.HasJournalEntries)
-            {
-                <TabPane Key="3">
-                    <Tab>Rapports de missions</Tab>
-                    <ChildContent>
-                        <AntList DataSource="@Info.JournalEntries" TItem="JournalEntry" Style="text-align: left;">
-                            <ListItem>
-                                <ListItemMeta>
-                                    <AvatarTemplate>
-                                        <Tooltip Title=@context.Author.DisplayName Placement="PlacementType.Top">
-                                            <Unbound Context="c">
-                                                @if (context.Author.HasProfileImageUri)
-                                                {
-                                                    <Avatar Src="@context.Author.ProfileImageUri" RefBack="@c" Size="75" />
-                                                }
-                                                else
-                                                {
-                                                    var style = string.Format("background-color: #{0:X6};", Random.Next(0x1000000));
-                                                    <Avatar Style="@style" Icon="user" RefBack="@c" Size="75" />
-                                                }
-                                            </Unbound>
-                                        </Tooltip>
-                                    </AvatarTemplate>
-                                    <TitleTemplate>
-                                        <div>
-                                            <h3>
-                                                @if (context.HasTitle)
-                                                {
-                                                    @context.Title
-                                                }
-                                                else
-                                                {
-                                                    <Text>Rapport de mission</Text>
-                                                }
-                                            </h3>
-                                            <div>@context.PublishedDate.ToShortDateString()</div>
-                                        </div>
-                                    </TitleTemplate>
-                                    <DescriptionTemplate>
-                                        @if (context.HasAbstract)
-                                        {
-                                            @((MarkupString)context.Abstract)
-                                        }
-                                        else
-                                        {
-                                            @((MarkupString)context.GenerateAbstractFromContent())
-                                        }
-                                    </DescriptionTemplate>
-                                </ListItemMeta>
-                            </ListItem>
-                        </AntList>
-                    </ChildContent>
-                </TabPane>
-            }
-        </Tabs>
-    </CardTabs>
-    <ActionTemplate>
-        <CardAction>
-            <Badge Count="@Info.JournalEntries?.Count()" Size="small">
-                <a href="/streams/seasons/@Info.Season/episodes/@Info.Episode"
-                   title="Voir les détails de l'épisode @Info.Episode de la saison @Info.Season">
-                    <JournalIcon />
-                    Voir les détails de l'épisode
-                </a>
-            </Badge>
-        </CardAction>
-        <CardAction>
-            <a href="@Info.Streamer.ChannelUri"
-               title="Twitch channel: @Info.Streamer.DisplayName"
-               target="_blank">
-                <TwitchIcon />
-                @Info.Streamer.DisplayName
-            </a>
-        </CardAction>
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            <MudTooltip Text="@Info.Streamer.DisplayName" Placement="Placement.Top">
+                <MudAvatar Image="@Info.Streamer.ProfileImageUri"></MudAvatar>
+            </MudTooltip>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">@CardTitle</MudText>
+            <MudText Typo="Typo.body2">@Info.Streamer.DisplayName</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <div class="ma-3">
+                @foreach (var player in Info.Players)
+                {
+                    var size = player.IsTeamMember ? Size.Medium : Size.Medium;
+                    <MudTooltip Text="@player.DisplayName" Placement="Placement.Top">
+                        @if (player.HasProfileImageUri)
+                        {
+                            <MudAvatar Image="@player.ProfileImageUri" Size="@size" Class="ml-n3" />
+                        }
+                        else
+                        {
+                            var style = string.Format("background-color: #333; color: #666; border:1px solid #444;");
+                            <MudAvatar Size="@Size.Small" Class="ml-n1" Variant="Variant.Filled" Style="@style">
+                                <MudIcon Icon="iconfont icon-user" />
+                            </MudAvatar>
+                        }
+                    </MudTooltip>
+                }
+            </div>
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudText Typo="Typo.body1">@Info.GetPlayDescription(options)</MudText>
+        @if (!string.IsNullOrEmpty(Info.Description))
+        {
+            <MudText Typo="Typo.body2">@Info.Description</MudText>
+        }
+
         @if (Info.HasYouTubeUri)
         {
-            <CardAction>
-                <a href="@Info.YouTubeEmbededUri"
-                   title="Voir la vidéo en plein écran"
-                   target="_blank">
-                    <Icon Type="fullscreen" Theme="outline" />
-                    Voir la vidéo en plein écran
-                </a>
-            </CardAction>
+            <MudPaper Elevation="0" Class="youtube-iframe-container mt-3">
+                <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </MudPaper>
         }
-        @if (Info.HasDiscordLink)
+        else
         {
-            <CardAction>
-                <a href="@Info.DiscordLink"
-                   title="Lien vers l'événement Discord"
-                   target="_blank">
-                    <DiscordIcon />
-                    Lien vers l'événement Discord
-                </a>
-            </CardAction>
+            <MudPaper Elevation="0" Class="youtube-iframe-container mt-3 rounded-0">
+                <div class="youtube-empty">
+                    <MudIcon Style="font-size: 5rem;" Icon="@Icons.Filled.Videocam" />
+                    <MudText Style="font-size: 2rem;">Enregistrement non disponible</MudText>
+                </div>
+            </MudPaper>
         }
-    </ActionTemplate>
-</Card>
+    </MudCardContent>
+    @if (!HideAction)
+    {
+        <MudCardActions Class="justify-flex-end">
+            @{
+                var count = Info.JournalEntries?.Count() ?? 0;
+                var icon = count > 0 ? MudBlazor.Icons.Filled.RemoveRedEye : MudBlazor.Icons.Outlined.RemoveRedEye;
+            }
+            @if (count > 0)
+            {
+                var color = count > 0 ? Color.Success : Color.Default;
+                <MudBadge Content="@count" Color="color" Overlap="true">
+                    <MudButton StartIcon="@icon"
+                               Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+                </MudBadge>
+            }
+            else
+            {
+                <MudButton StartIcon="@icon"
+                           Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+            }
+        </MudCardActions>
+    }
+</MudCard>
 
 @code{
-    private RenderFragment avatar => @<Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" />;
+    //private RenderFragment avatar =>@<Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" />;
 
     private string CardId => $"card-season-{Info.Season}-episode-{Info.Episode}";
 
@@ -185,4 +98,7 @@
 
     [Parameter]
     public EpisodeInfo Info { get; set; }
+
+    [Parameter]
+    public bool HideAction { get; set; }
 }

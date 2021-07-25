@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AntDesign;
 using LesBatisseursDeNations.Data;
+using MudBlazor.Services;
 
 namespace LesBatisseursDeNations
 {
@@ -29,6 +30,8 @@ namespace LesBatisseursDeNations
 
         public static void ConfigureServices(IServiceCollection services)
         {
+            services.AddMudServices();
+
             services.AddAntDesign();
             services.AddSingleton(new UserOptions());
 

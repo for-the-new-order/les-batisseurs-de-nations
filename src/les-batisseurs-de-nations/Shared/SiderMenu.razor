@@ -1,44 +1,50 @@
 ﻿@inject UserOptions options;
 @inject IEpisodesService EpisodesService
 
-<Menu Mode="MenuMode.Inline"
-      Theme="options.MenuTheme"
-      DefaultOpenKeys=@(new[] { "seasons" })
-      DefaultSelectedKeys=@(new[] {"home"})>
-    @*Style="height: 100%; border-right: 0;"*@
-    <MenuItem Key="home" Icon="home" RouterLink="/" Title="Accueil" RouterMatch="NavLinkMatch.All"></MenuItem>
-    <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams" RouterMatch="NavLinkMatch.Prefix"></MenuItem>
-    <SubMenu Key="seasons" TitleTemplate="seasonsMenuItemContent">
+<MudNavMenu>
+    <MudNavLink Href="/" Icon="@MudBlazor.Icons.Outlined.Home" Match="NavLinkMatch.All">Accueil</MudNavLink>
+    <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.PlayArrow" Match="NavLinkMatch.All">Streams</MudNavLink>
+    <MudNavGroup Title="Episodes" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
         @foreach (var season in Seasons)
         {
             var seasonKey = $"S{season.Number:00}";
             var seasonTitle = $"Season {season.Number}";
-            <MenuItemGroup Key="@seasonKey" Title="@seasonTitle">
+            <MudNavGroup Title="@seasonTitle" Expanded="true" HideExpandIcon="true">
                 @foreach (var episode in season.EpisodesNumber)
                 {
                     var episodeKey = $"S{season.Number:00}E{episode:00}";
                     var episodeLink = $"/streams/seasons/{season.Number}/episodes/{episode}";
                     var episodeTitle = $"Episode {episode}";
-                    <MenuItem Key="@episodeKey" RouterLink="@episodeLink" Title="@episodeTitle" RouterMatch="NavLinkMatch.All"></MenuItem>
+                    <MudNavLink Href="@episodeLink">@episodeTitle</MudNavLink>
                 }
-            </MenuItemGroup>
+            </MudNavGroup>
         }
-    </SubMenu>
-</Menu>
+    </MudNavGroup>
+</MudNavMenu>
 
+@*<Menu Mode="MenuMode.Inline"
+          Theme="options.MenuTheme"
+          DefaultOpenKeys=@(new[] { "seasons" })
+          DefaultSelectedKeys=@(new[] {"home"})>
+        <MenuItem Key="home" Icon="home" RouterLink="/" Title="Accueil" RouterMatch="NavLinkMatch.All"></MenuItem>
+        <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams" RouterMatch="NavLinkMatch.Prefix"></MenuItem>
+        <SubMenu Key="seasons" TitleTemplate="seasonsMenuItemContent">
+        </SubMenu>
+    </Menu>
+        private readonly RenderFragment streamMenuItemContent =
+        @<span>
+            <TwitchIcon />
+            <span>Streams</span>
+        </span>;
+
+        private readonly RenderFragment seasonsMenuItemContent =
+        @<span>
+            <JournalIcon />
+            <span>Episodes</span>
+        </span>;
+
+*@
 @code{
-    private readonly RenderFragment streamMenuItemContent =
-    @<span>
-        <TwitchIcon />
-        <span>Streams</span>
-    </span>;
-
-    private readonly RenderFragment seasonsMenuItemContent =
-    @<span>
-        <JournalIcon />
-        <span>Episodes</span>
-    </span>;
-
     IEnumerable<Season> Seasons { get; set; }
 
     protected async override Task OnInitializedAsync()
@@ -49,5 +55,5 @@
         Seasons = await EpisodesService.AllSeasons();
         //Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
         //State = Episode == null ? PageState.NotFound : PageState.Loaded;
-        }
+    }
 }

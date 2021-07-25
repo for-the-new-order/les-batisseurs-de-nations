@@ -1,3 +1,14 @@
 ﻿@page "/"
 
-<div style="background-image: url(https://cdn.rpg.solutions/les-batisseurs-de-nations/images/DwarvesGuide.jpg); background-repeat: no-repeat; background-size: contain; background-position: center; height:100%;"></div>
+<PageHeader Title="Accueil" Description="Bienvenue sur le site des bâtisseurs de nations!" Items="_items" />
+
+<MudContainer Style="height: calc(100vh - 246px);">
+    <div style="background-image: url(https://cdn.rpg.solutions/les-batisseurs-de-nations/images/DwarvesGuide.jpg); background-repeat: no-repeat; background-size: contain; background-position: center; height:100%;"></div>
+</MudContainer>
+
+@code{
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Accueil", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.Home),
+    };
+}

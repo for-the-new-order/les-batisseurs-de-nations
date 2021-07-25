@@ -1,0 +1,37 @@
+﻿<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper>
+                @if (Skeleton)
+                {
+                    <div class="pa-4">
+                        <MudSkeleton Animation="Animation.Wave" Width="40%" Height="24px" />
+                        <MudSkeleton Animation="Animation.Wave" Width="50%" Height="84px" />
+                        <MudSkeleton Animation="Animation.Wave" Width="20%" Height="24px" />
+                    </div>
+                }
+                else
+                {
+                    <MudBreadcrumbs Items="Items" Separator=">"></MudBreadcrumbs>
+                    <MudText Typo="Typo.h1" Class="mx-4">@Title</MudText>
+                    <MudText Class="pa-4">
+                        @Description
+                    </MudText>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+@code{
+    [Parameter]
+    public bool Skeleton { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string Description { get; set; }
+
+    [Parameter]
+    public List<BreadcrumbItem> Items { get; set; }
+}
