@@ -31,7 +31,7 @@
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Episodes = await EpisodesService.AllAsync();
+        Episodes = (await EpisodesService.AllAsync()).Reverse();
     }
 
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
