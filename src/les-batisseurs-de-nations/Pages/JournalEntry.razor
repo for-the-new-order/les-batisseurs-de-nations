@@ -14,6 +14,24 @@
                 <MudItem sm="6">
                     <StreamLoadingCard />
                 </MudItem>
+                <MudItem sm="6">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="400px" />
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+                <MudItem sm="12">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudSkeleton Height="40px" Width="90%" />
+                            <MudSkeleton Height="40px" Width="90%" />
+                            <MudSkeleton Height="40px" Width="90%" />
+                            <MudSkeleton Height="40px" Width="90%" />
+                            <MudSkeleton Height="40px" Width="90%" />
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
             </MudGrid>
         </MudContainer>
         break;
@@ -62,30 +80,17 @@
                                 </MudCardContent>
                             </MudCard>
                         </MudItem>
-                        @*<Card Bordered="false">
-                    <ChildContent>
-                        <Descriptions Column="2" Bordered Style="margin-bottom: 16px;">
-                            <DescriptionsItem Title="Auteur" Span="1">
-                                @if (entry.Author.HasProfileImageUri)
-                                {
-                                    <Avatar Src="@entry.Author.ProfileImageUri" Size="50" />
-                                }
-                                &nbsp;@entry.Author.DisplayName
-                            </DescriptionsItem>
-                            <DescriptionsItem Title="Date de publication" Span="1">@entry.PublishedDate.ToString("D", options.Culture)</DescriptionsItem>
-                        </Descriptions>
-                        @((MarkupString)entry.Content)
-                    </ChildContent>
-                </Card>*@
                     }
                 }
                 else
                 {
-                    @*<Card Bordered="false">
-                <ChildContent>
-                    <Empty Simple Description="@("Aucune entrée de journal disponible")" />
-                </ChildContent>
-            </Card>*@
+                    <MudItem md="12">
+                        <MudCard>
+                            <MudCardContent Class="journal-entry-content">
+                                Aucune entrée de journal disponible
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
                 }
             </MudGrid>
         </MudContainer>
@@ -95,140 +100,6 @@
                   Description="L'épisode que vous recherchez n'existe pas." />
         break;
 }
-
-
-
-
-
-@*@using AntDesign
-    <Row Gutter="8">
-        <AntDesign.Col Class="gutter-row" Span="12">
-            <PageHeader Class="journal-page-header">
-                <PageHeaderTitle>Chaine</PageHeaderTitle>
-                <PageHeaderContent>
-                    Cet épisode est présenté sur la chaine <a href="@Episode.Streamer.ChannelUri" target="_blank">@Episode.Streamer.DisplayName</a>
-                </PageHeaderContent>
-                <PageHeaderAvatar>
-                    <Tooltip Title=@Episode.Streamer.DisplayName Placement="PlacementType.Right">
-                        <Unbound>
-                            <a href="@Episode.Streamer.ChannelUri" target="_blank">
-                                <Avatar Src="@Episode.Streamer.ProfileImageUri" Alt="@Episode.Streamer.DisplayName" RefBack="@context" />
-                            </a>
-                        </Unbound>
-                    </Tooltip>
-
-                </PageHeaderAvatar>
-            </PageHeader>
-
-            <Card Bordered="false">
-                <ChildContent>
-                    @if (Episode.HasYouTubeUri)
-                    {
-                        <div style="text-align: center;">
-                            <iframe src="@Episode.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                    }
-                    else
-                    {
-                        <Empty Simple>
-                            <ImageTemplate>
-                                <Icon Type="video-camera" Theme="outline" Style="font-size: 40px;" />
-                            </ImageTemplate>
-                            <DescriptionTemplate>
-                                Enregistrement non disponible
-                            </DescriptionTemplate>
-                        </Empty>
-                    }
-                </ChildContent>
-            </Card>
-
-            <Divider Text="Personnages" />
-            <Tabs TabPosition="@TabPosition.Left">
-                @foreach (var character in PlayersWithSheet)
-                {
-                    var disabled = !character.HasCharacterSheetUri;
-                    <TabPane Key="@($"character-{character.Id}")" Disabled="disabled">
-                        <Tab>
-                            @if (character.HasProfileImageUri)
-                            {
-                                <Avatar Src="@character.ProfileImageUri" />
-                            }
-                            else
-                            {
-                                var style = "background-color: #CCC;";
-                                <Avatar Style="@style" Icon="user" />
-                            }
-                            &nbsp;@character.DisplayName
-                        </Tab>
-                        <ChildContent>
-                            <a href="@character.CharacterSheetUri" target="_blank">
-                                <Image Src="@character.CharacterSheetImageUri" Alt="@($"Fiche de {character.DisplayName}")" />
-                            </a>
-                        </ChildContent>
-                    </TabPane>
-                }
-            </Tabs>
-        </AntDesign.Col>
-        <AntDesign.Col Class="gutter-row" Span="12">
-            <PageHeader Class="journal-page-header">
-                <PageHeaderTitle>Journal des batisseurs de nations</PageHeaderTitle>
-                <PageHeaderContent>Rapports de missions</PageHeaderContent>
-            </PageHeader>
-            @if (Episode.HasJournalEntries)
-            {
-                foreach (var entry in Episode.JournalEntries)
-                {
-                    <Card Bordered="false">
-                        <ChildContent>
-                            <Descriptions Column="2" Bordered Style="margin-bottom: 16px;">
-                                <DescriptionsItem Title="Auteur" Span="1">
-                                    @if (entry.Author.HasProfileImageUri)
-                                    {
-                                        <Avatar Src="@entry.Author.ProfileImageUri" Size="50" />
-                                    }
-                                    &nbsp;@entry.Author.DisplayName
-                                </DescriptionsItem>
-                                <DescriptionsItem Title="Date de publication" Span="1">@entry.PublishedDate.ToString("D", options.Culture)</DescriptionsItem>
-                            </Descriptions>
-                            @((MarkupString)entry.Content)
-                        </ChildContent>
-                    </Card>
-                }
-            }
-            else
-            {
-                <Card Bordered="false">
-                    <ChildContent>
-                        <Empty Simple Description="@("Aucune entrée de journal disponible")" />
-                    </ChildContent>
-                </Card>
-            }
-        </AntDesign.Col>
-    </Row>*@
-
-
-@*<PageHeader Class="journal-page-header">
-        <PageHeaderAvatar>
-            <Avatar Shape="" Src="https://www.dndbeyond.com/avatars/18919/58/1581111423-52417643.jpeg?width=150&height=150&fit=crop&quality=95&auto=webp" />
-        </PageHeaderAvatar>
-
-        <PageHeaderExtra>
-            <a href="/streams#card-episode-1" title="Allez au stream">
-                <Icon Type="eye" Theme="outline" />
-            </a>
-        </PageHeaderExtra>
-
-        <PageHeaderTitle>Journal des batisseurs de nations</PageHeaderTitle>
-        <PageHeaderSubtitle>Entrée 1 (Episode 1)</PageHeaderSubtitle>
-        <PageHeaderContent>
-            <Descriptions Size="small" Column="2">
-                <DescriptionsItem Title="Auteur" Span="1">Mamita Lalouche Forgefeu</DescriptionsItem>
-                <DescriptionsItem Title="Date" Span="1">07/11/2021</DescriptionsItem>
-            </Descriptions>
-        </PageHeaderContent>
-    </PageHeader>
-    <p>Après un voyage en mer de quelques semaines qui nous ont semblé interminables, je dois bien l’avouer, nous sommes enfin arrivés mes frères, mon cousin et moi sur les Terres perdues. Les nains n’ont pas tous le pied marin (je fais surtout référence à Gur qui n’a pas cessé de rendre à la mer tout ce que je lui donnais à manger). Ces terres m’ont semblé à la fois dangereuses et remplies de la promesse d’un avenir prospère. Je dois dire que ma famille et moi chérissons le même rêve de bâtir une nouvelle nation forte et soudée de la trempe des nains de Norgorof, notre montagne adorée.</p><p>En arrivant au campement de base, qui est en fait un navire échoué qui a été renversé, nous avons pu voir la partie de la carte des lieux qui a été retrouvée. Sur celle-ci, il y avait un dessin représentant une pioche. Il ne nous en fallait pas plus pour nous convaincre de la première destination à atteindre. Une mine, notre future mine, devait nous attendre patiemment à seulement quelques jours de marche. Nous voyant partir, une elfe du nom de Nalvyna, qui voulait faire partie de la première expédition, s’est jointe à notre groupe. Je l’ai trouvée bien courageuse de vouloir s’acoquiner dès le départ avec quatre nains bien téméraires, mais je l’ai trouvée aussi un peu particulière, puisque je n’avais jamais vu un elfe avec ce genre de teint. J’ai tout d’abord cru qu’elle avait été très malade durant le trajet en mer (Gur n’avait pas bonne mine lui non plus), mais elle m’a dit qu’elle venait de sous la terre, alors ceci expliquait peut-être cela. N’empêche qu’il me semblait qu’un bon repas copieux lui redonnerait un peu de fraîcheur et pour cela, elle pouvait maintenant compter sur mes services.</p><p>Bref, nous sommes partis tous les cinq en direction du nord en suivant le chemin qui longeait le fleuve. Tout est bien différent de ce que nous sommes habitués de voir. Les palmiers côtoient les conifères, il y a des zones où le silence règne en maître, car les animaux ne s’y aventurent jamais, si bien que nous avons cru, l’espace d’un instant, que nous ne pourrions jamais trouver quelque espèce que ce soit à chasser en ces lieux. La cuisinière en moi était fort dépitée par cette nouvelle. La possible présence de champignons qui pourraient agrémenter mes recettes me faisait l’effet d’un petit baume au cœur, mais la peur de ne pouvoir nourrir ma famille aussi bien qu’à l’habitude me tenaillait toujours. Toutefois, je vous rassure tout de suite, il est très possible de pêcher (nous avons d’ailleurs attrapé un spécimen des plus étranges qui avait bien plus d’yeux qu’il n’en faut pour voir sous l’eau, mais qui était fort délicieux) et il y a aussi la Forêt du Loup Transplaneur qui grouille de bêtes en tout genre.</p><p>Sur le chemin nous menant à notre destin glorieux, nous avons croisé un cadavre desséché qui devait jadis être un aventurier elfe. Nalvyna s’y est intéressé pendant que, de notre côté, nous étions plutôt absorbés par la contemplation d’une exceptionnelle réalisation naine datant de plusieurs milliers d’années. Il semblerait que le chemin de pierres avait été fait par la troisième dynastie naine de Pointe-Fer. Cette découverte nous rapprochait davantage de notre but ultime! Pendant ce temps, Nalvyna qui fouillait le sac du mort a aussi fait une importante découverte pour la communauté. Elle a découvert une tonne de pièces d’or frappées du symbole du gantelet de la dynastie Pointe-Fer et quelques pierres précieuses! Voilà qui sera bien profitable pour l’établissement en ces terres hostiles.</p><p>Après avoir fait une sépulture au cadavre inconnu, en lui laissant quelques piécettes pour payer son passage, nous avons continué notre chemin en empruntant la route de pierres, ce qui nous a conduits dans la forêt. Celle-ci étant tellement dense qu’elle nous coupait la lumière du jour. Nous avons survécu de justesse à bons nombres de grands dangers : des créatures gigantesques aux dents acérées, des feuilles aussi coupantes que des lames de rasoir et aussi résistantes que la pierre, des crevasses formées par la végétation, etc. La première nuit est arrivée et nous avons dû établir un campement pour dormir. Ce qui est à la fois le plus étrange et le plus magnifique, c’est que la nuit est plus éclairée que le jour dans cette forêt, puisque tout est phosphorescent et émet de la lumière colorée. C’est un spectacle qu’il faut voir au moins une fois dans sa vie. Nous nous sommes même demandé s’il ne serait pas préférable de chasser pendant la nuit, car les animaux y sont plus visibles.</p><p>Le tour de garde de Gur venait de commencer lorsqu’un loup immense s’est approché du camp. À grands coups de marteau de guerre sur son bouclier, Gur nous a tous réveillés. Le loup a ensuite couru jusqu’au milieu du campement pour prendre un sac, puis il s’est volatilisé devant nos yeux. C’était le sac de Dhan’Lbek qui contenait son livre de magie et tous ses papiers de cartographe. Ce mystère du Loup transplaneur l’a obnubilé longtemps et, pour cette raison, j’ai baptisé cette forêt : « la Forêt du Loup Transplaneur ». Puis, mon tour de garde est enfin arrivé et je devais faire le petit-déjeuner de mes compagnons. J’étais beaucoup trop attelée à la tâche pour remarquer quelques dangers que ce soit. D’ailleurs, cela a bien valu la peine, puisque le repas était tellement délicieux qu’un genre de lézard-raptor qui rend les gens aveugles grâce à un flash lumineux n’a pas pu résister et il est parti avec mon chaudron et tout son contenu. Par chance, nous avons pu récupérer ce bien qui est le plus précieux de ma collection, puisqu’il s’agit d’un héritage familial.</p><p>En nous remettant en route, nous avons revu à quelques reprises de petites sculptures de roches qui ressemblaient à de petits bonshommes. Je n’ai aucune idée de qui pouvait bien en être l’artiste, mais c’était plutôt joli. Nous sommes finalement arrivés au pied de la montagne. La mine que nous espérions trouver était en fait une forteresse. Il y avait 45 marches qui menaient à une gigantesque porte d’une fabrication parfaite. La porte étant scellée, nous savions que nous ne pourrions pénétrer dans cette forteresse que le jour où nous en aurions trouvé les 4 clés.</p>*@
-
 
 @code {
     [Parameter]
