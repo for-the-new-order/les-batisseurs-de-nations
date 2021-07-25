@@ -1,10 +1,41 @@
-﻿body {
+﻿/*body {
     height: 100vh;
     width: 100vw;
     color: #d3d3d3;
+}*/
+
+.mud-main-content {
+    min-height: 100vh;
 }
 
-#blazor-error-ui {
+.batisseurs-de-nations{
+
+}
+    .batisseurs-de-nations #blazor-error-ui {
+        background-color: var(--mud-palette-drawer-background);
+    }
+
+    .batisseurs-de-nations .text-align-right {
+        text-align: right;
+    }
+
+    .batisseurs-de-nations .text-align-left {
+        text-align: left;
+    }
+
+    .batisseurs-de-nations .justify-flex-end {
+        justify-content: flex-end;
+    }
+    .batisseurs-de-nations .journal-entry-content p {
+        margin: 1em 0;
+    }
+        .batisseurs-de-nations .journal-entry-content p:first-child {
+            margin-top: 0;
+        }
+        .batisseurs-de-nations .journal-entry-content p:last-child {
+            margin-bottom: 0;
+        }
+    /*#blazor-error-ui {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -22,8 +53,8 @@
         right: 0.75rem;
         top: 0.5rem;
     }
-
-/*.dark-layout {
+*/
+    /*.dark-layout {
     background: #191d21;
 }
     .dark-layout .ant-timeline {
@@ -44,3 +75,27 @@
 .ant-space.stream-card-space {
     align-items: flex-start;
 }
+
+/* Source: https://www.benmarshall.me/responsive-iframes/ */
+.youtube-iframe-container {
+    overflow: hidden;
+    /* 16:9 aspect ratio */
+    padding-top: 56.25%;
+    position: relative;
+}
+
+    .youtube-iframe-container iframe,
+    .youtube-iframe-container .youtube-empty {
+        border: 0;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .youtube-iframe-container .youtube-empty {
+        text-align: center;
+        padding-top: calc(56.25% - 290px);
+        border: 1px solid var(--mud-palette-lines-default);
+    }
