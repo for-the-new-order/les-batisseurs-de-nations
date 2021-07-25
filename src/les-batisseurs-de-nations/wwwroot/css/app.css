@@ -26,6 +26,15 @@
     .batisseurs-de-nations .justify-flex-end {
         justify-content: flex-end;
     }
+    .batisseurs-de-nations .journal-entry-content p {
+        margin: 1em 0;
+    }
+        .batisseurs-de-nations .journal-entry-content p:first-child {
+            margin-top: 0;
+        }
+        .batisseurs-de-nations .journal-entry-content p:last-child {
+            margin-bottom: 0;
+        }
     /*#blazor-error-ui {
     background: lightyellow;
     bottom: 0;
