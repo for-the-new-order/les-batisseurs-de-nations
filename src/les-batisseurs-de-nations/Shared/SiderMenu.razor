@@ -17,10 +17,11 @@
                     var episodeTitle = $"Episode {episode.Number}";
                     var icon = episode.HasTeamMembers
                         ? MudBlazor.Icons.Sharp.LocalFireDepartment
-                        : MudBlazor.Icons.Sharp.CheckBoxOutlineBlank;
+                        : episode.HasJournalEntries ? MudBlazor.Icons.Sharp.CheckBox : MudBlazor.Icons.Sharp.CheckBoxOutlineBlank;
                     var iconColor = episode.HasTeamMembers
                         ? Color.Error
                         : Color.Dark;
+
                     <MudNavLink Href="@episodeLink" Icon="@icon" IconColor="@iconColor">@episodeTitle</MudNavLink>
                 }
             </MudNavGroup>
