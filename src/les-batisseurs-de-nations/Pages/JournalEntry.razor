@@ -45,18 +45,30 @@
                 <MudItem md="6">
                     <MudCard>
                         <MudCardContent>
-                            <MudTabs Position="@Position.Left" Border="true" @ref="CharacterTabsRef"
-                                     ApplyEffectsToContainer="true" PanelClass="pa-6" TabPanelClass="justify-flex-end">
-                                @foreach (var character in PlayersWithSheet)
-                                {
-                                    var disabled = !character.HasCharacterSheetUri;
-                                    <MudTabPanel Text="@character.DisplayName" Disabled="disabled">
-                                        <a href="@character.CharacterSheetUri" target="_blank">
-                                            <img src="@character.CharacterSheetImageUri" alt="@($"Fiche de {character.DisplayName}")" style="width: 100%;" />
-                                        </a>
-                                    </MudTabPanel>
-                                }
-                            </MudTabs>
+                            @if (Episode.HasTeamMembers)
+                            {
+                                <MudTabs Position="@Position.Left" Border="true" @ref="CharacterTabsRef"
+                                         ApplyEffectsToContainer="true" PanelClass="pa-6" TabPanelClass="justify-flex-end">
+                                    @foreach (var character in Episode.Players)
+                                    {
+                                        var disabled = !character.HasCharacterSheetUri;
+                                        <MudTabPanel Text="@character.DisplayName" Disabled="disabled">
+                                            <a href="@character.CharacterSheetUri" target="_blank">
+                                                <img src="@character.CharacterSheetImageUri" alt="@($"Fiche de {character.DisplayName}")" style="width: 100%;" />
+                                            </a>
+                                        </MudTabPanel>
+                                    }
+                                </MudTabs>
+                            }
+                            else
+                            {
+                                <div class="py-16">
+                                    <div style="text-align:center;" class="mt-3">
+                                        <MudIcon Style="font-size: 5rem;" Icon="@Icons.Custom.FileFormats.FileDocument" />
+                                    </div>
+                                    <MudText Style="font-size: 2rem;" Align="Align.Center">Personnages non disponibles</MudText>
+                                </div>
+                            }
                         </MudCardContent>
                     </MudCard>
                 </MudItem>
@@ -111,15 +123,13 @@
     PageState State { get; set; } = PageState.NotLoaded;
     EpisodeInfo Episode { get; set; }
 
-    string Title => $"Détails de l'épisode {Episode.Episode} de la saison {Episode.Season}";
+    string Title => $"Détails de l'épisode {Episode.Number} de la saison {Episode.Season}";
     string SubTitle => State switch
     {
         PageState.NotFound => "Épisode introuvable",
-        PageState.Loaded => $"Saison {Episode.Season} épisode {Episode.Episode}",
+        PageState.Loaded => $"Saison {Episode.Season} épisode {Episode.Number}",
         _ => "..."
     };
-
-    IEnumerable<Player> PlayersWithSheet { get; set; } = Enumerable.Empty<Player>();
 
     protected async override Task OnParametersSetAsync()
     {
@@ -128,10 +138,6 @@
         //await Task.Delay(2000);
         Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
         State = Episode == null ? PageState.NotFound : PageState.Loaded;
-        if (Episode != null)
-        {
-            PlayersWithSheet = Episode.Players;
-        }
         CharacterTabsRef?.ActivatePanel(0);
     }
 

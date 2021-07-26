@@ -4,8 +4,14 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderAvatar>
+            @if (Info.HasTeamMembers)
+            {
+                <MudTooltip Text="Les batisseurs de nations" Placement="Placement.Top">
+                    <MudIcon Icon="@MudBlazor.Icons.Sharp.LocalFireDepartment" Size="@Size.Large" Color="Color.Error"></MudIcon>
+                </MudTooltip>
+            }
             <MudTooltip Text="@Info.Streamer.DisplayName" Placement="Placement.Top">
-                <MudAvatar Image="@Info.Streamer.ProfileImageUri"></MudAvatar>
+                <MudAvatar Image="@Info.Streamer.ProfileImageUri" Class="ml-n3"></MudAvatar>
             </MudTooltip>
         </CardHeaderAvatar>
         <CardHeaderContent>
@@ -69,13 +75,13 @@
                 var color = count > 0 ? Color.Success : Color.Default;
                 <MudBadge Content="@count" Color="color" Overlap="true">
                     <MudButton StartIcon="@icon"
-                               Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+                               Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Number}")">Voir les détails de l'épisode</MudButton>
                 </MudBadge>
             }
             else
             {
                 <MudButton StartIcon="@icon"
-                           Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Episode}")">Voir les détails de l'épisode</MudButton>
+                           Link="@($"/streams/seasons/{Info.Season}/episodes/{Info.Number}")">Voir les détails de l'épisode</MudButton>
             }
         </MudCardActions>
     }
@@ -84,11 +90,12 @@
 @code{
     //private RenderFragment avatar =>@<Avatar Size="100" Src="@Info.Streamer.ProfileImageUri" Alt="@Info.Streamer.DisplayName" />;
 
-    private string CardId => $"card-season-{Info.Season}-episode-{Info.Episode}";
+    private string CardId => $"card-season-{Info.Season}-episode-{Info.Number}";
 
-    private string CardTitle => $"Epidode {Info.Episode}: " + Info.State switch
+    private string CardTitle => $"Epidode {Info.Number}: " + Info.State switch
     {
-        StreamState.Future => "Prochain épisode des Batisseurs de Nations",
+        StreamState.Future when Info.HasTeamMembers => "Prochain épisode des Batisseurs de Nations",
+        StreamState.Future => "Épisode à venir",
         StreamState.StartingSoon => "Démarrage du stream imminent",
         StreamState.Playing => "Épisode en cours",
         StreamState.MightStillBeOn => "L'épisode est peut-être encore en cours",

@@ -54,9 +54,7 @@ namespace LesBatisseursDeNations.Data
                     seasonNumber, 
                     _database.Episodes
                         .Where(e => e.Season == seasonNumber)
-                        .Select(e => e.Episode)
-                        .Distinct()
-                        .OrderBy(x => x)
+                        .OrderBy(x => x.Number)
                 ));
             return Task.FromResult(seasons);
         }
@@ -64,7 +62,7 @@ namespace LesBatisseursDeNations.Data
         Task<EpisodeInfo> IEpisodesService.FindAsync(int seasonNumber, int episodeNumber)
         {
             var episode = _database.Episodes
-                .FirstOrDefault(x => x.Season == seasonNumber && x.Episode == episodeNumber);
+                .FirstOrDefault(x => x.Season == seasonNumber && x.Number == episodeNumber);
             return Task.FromResult(episode);
         }
     }
