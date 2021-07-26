@@ -86,6 +86,22 @@ namespace LesBatisseursDeNations.Data
                 CharacterSheetImageUri: "",
                 IsTeamMember: false
             ));
+            var other4 = AddPlayer(new(
+                Id: -4,
+                DisplayName: "Autre joueur 4",
+                ProfileImageUri: "",
+                CharacterSheetUri: "",
+                CharacterSheetImageUri: "",
+                IsTeamMember: false
+            ));
+            var other5 = AddPlayer(new(
+                Id: -5,
+                DisplayName: "Autre joueur 5",
+                ProfileImageUri: "",
+                CharacterSheetUri: "",
+                CharacterSheetImageUri: "",
+                IsTeamMember: false
+            ));
 
             // TwitchChannels
             var onStartTuCa = AddTwitchChannel(new(
@@ -106,11 +122,17 @@ namespace LesBatisseursDeNations.Data
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/puppo-profile_image-150x150.png",
                 ChannelUri: "https://www.twitch.tv/pourunepoigneedepiecesdor"
             ));
+            var havgood = AddTwitchChannel(new(
+                StreamerId: Streamer.Havgood,
+                DisplayName: "havgood",
+                ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/havgood-profile_image-150x150.png",
+                ChannelUri: "https://www.twitch.tv/havgood"
+            ));
 
             // Episodes
             Episodes.Add(new(
                 Season: 1,
-                Episode: 1,
+                Number: 1,
                 Title: "Ouverture du Westmarch des terres perdues",
                 Description: "",
                 Streamer: onStartTuCa,
@@ -130,7 +152,98 @@ namespace LesBatisseursDeNations.Data
             ));
             Episodes.Add(new(
                 Season: 1,
-                Episode: 9,
+                Number: 2,
+                Title: "",
+                Description: "",
+                Streamer: puppo,
+                StartDate: new DateTime(2021, 07, 14, 19, 30, 0),
+                EndDate: new DateTime(2021, 07, 14, 22, 30, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860272995460317204",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 3,
+                Title: "",
+                Description: "",
+                Streamer: fenyxLair,
+                StartDate: new DateTime(2021, 07, 15, 19, 30, 0),
+                EndDate: new DateTime(2021, 07, 15, 22, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273002150101033",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 4,
+                Title: "",
+                Description: "",
+                Streamer: onStartTuCa,
+                StartDate: new DateTime(2021, 07, 16, 20, 0, 0),
+                EndDate: new DateTime(2021, 07, 16, 23, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273008199467088",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 5,
+                Title: "",
+                Description: "",
+                Streamer: puppo,
+                StartDate: new DateTime(2021, 07, 21, 19, 30, 0),
+                EndDate: new DateTime(2021, 07, 21, 22, 30, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273014239133707",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 6,
+                Title: "",
+                Description: "",
+                Streamer: fenyxLair,
+                StartDate: new DateTime(2021, 07, 22, 19, 30, 0),
+                EndDate: new DateTime(2021, 07, 22, 22, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273020596387840",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 7,
+                Title: "",
+                Description: "",
+                Streamer: onStartTuCa,
+                StartDate: new DateTime(2021, 07, 23, 20, 0, 0),
+                EndDate: new DateTime(2021, 07, 23, 23, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273027836936212",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 8,
+                Title: "",
+                Description: "",
+                Streamer: havgood,
+                StartDate: new DateTime(2021, 07, 24, 15, 0, 0),
+                EndDate: new DateTime(2021, 07, 24, 18, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273033910419486",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 9,
                 Title: "",
                 Description: "",
                 Streamer: puppo,
@@ -140,6 +253,45 @@ namespace LesBatisseursDeNations.Data
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273039534719047",
                 Players: new[] { gur, dhanlbek, kilmi, other1, other2 },
                 JournalEntries: default
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 10,
+                Title: "",
+                Description: "",
+                Streamer: fenyxLair,
+                StartDate: new DateTime(2021, 07, 29, 19, 30, 0),
+                EndDate: new DateTime(2021, 07, 29, 22, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273045993553920",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 11,
+                Title: "Special Ma Fête!",
+                Description: "",
+                Streamer: onStartTuCa,
+                StartDate: new DateTime(2021, 07, 30, 20, 0, 0),
+                EndDate: new DateTime(2021, 07, 31, 0, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273052062187531",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
+            ));
+            Episodes.Add(new(
+                Season: 1,
+                Number: 12,
+                Title: "",
+                Description: "",
+                Streamer: havgood,
+                StartDate: new DateTime(2021, 07, 31, 15, 0, 0),
+                EndDate: new DateTime(2021, 07, 31, 18, 0, 0),
+                YouTubeEmbededUri: "",
+                DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273057981661215",
+                Players: new[] { other1, other2, other3, other4, other5 },
+                JournalEntries: new JournalEntry[0]
             ));
         }
 

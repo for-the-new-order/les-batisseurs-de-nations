@@ -8,7 +8,7 @@ namespace LesBatisseursDeNations.Data
 {
     public record EpisodeInfo(
         int Season, 
-        int Episode,
+        int Number,
         string Title,
         string Description,
         TwitchChannel Streamer,
@@ -28,6 +28,8 @@ namespace LesBatisseursDeNations.Data
         public bool HasYouTubeUri => !string.IsNullOrEmpty(YouTubeEmbededUri);
         public bool HasTitle => !string.IsNullOrEmpty(Title);
         public bool HasDescription => !string.IsNullOrEmpty(Description);
+
+        public bool HasTeamMembers => Players.Any(x => x.IsTeamMember);
 
         private StreamState GetStreamState()
         {
@@ -72,6 +74,7 @@ namespace LesBatisseursDeNations.Data
         FenyxLair,
         OnStartTuCa,
         Puppo,
+        Havgood,
     }
 
     public enum StreamState
@@ -83,5 +86,5 @@ namespace LesBatisseursDeNations.Data
         MightStillBeOn,
     }
 
-    public record Season(int Number, IEnumerable<int> EpisodesNumber);
+    public record Season(int Number, IEnumerable<EpisodeInfo> Episodes);
 }

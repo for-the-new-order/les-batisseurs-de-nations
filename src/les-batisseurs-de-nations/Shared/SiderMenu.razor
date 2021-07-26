@@ -10,12 +10,18 @@
             var seasonKey = $"S{season.Number:00}";
             var seasonTitle = $"Season {season.Number}";
             <MudNavGroup Title="@seasonTitle" Expanded="true" HideExpandIcon="true">
-                @foreach (var episode in season.EpisodesNumber)
+                @foreach (var episode in season.Episodes)
                 {
-                    var episodeKey = $"S{season.Number:00}E{episode:00}";
-                    var episodeLink = $"/streams/seasons/{season.Number}/episodes/{episode}";
-                    var episodeTitle = $"Episode {episode}";
-                    <MudNavLink Href="@episodeLink">@episodeTitle</MudNavLink>
+                    var episodeKey = $"S{season.Number:00}E{episode.Number:00}";
+                    var episodeLink = $"/streams/seasons/{season.Number}/episodes/{episode.Number}";
+                    var episodeTitle = $"Episode {episode.Number}";
+                    var icon = episode.HasTeamMembers
+                        ? MudBlazor.Icons.Sharp.LocalFireDepartment
+                        : MudBlazor.Icons.Sharp.CheckBoxOutlineBlank;
+                    var iconColor = episode.HasTeamMembers
+                        ? Color.Error
+                        : Color.Dark;
+                    <MudNavLink Href="@episodeLink" Icon="@icon" IconColor="@iconColor">@episodeTitle</MudNavLink>
                 }
             </MudNavGroup>
         }
