@@ -115,6 +115,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 09, 20, 0, 0),
                 EndDate: new DateTime(2021, 07, 09, 23, 0, 0),
                 YouTubeEmbededUri: "https://www.youtube.com/embed/yt4xTDlBOQs",
+                TwitchVideoId: "1082222322",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860272989106339850",
                 Players: new[] { kilmi, gur, mamita, dhanlbek, nalvyna },
                 JournalEntries: new[]
@@ -135,6 +136,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 14, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 14, 22, 30, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1094009118",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860272995460317204",
                 Players: new[] { attaZap, falemJDRNinja, gordon, johc, luthion },
                 JournalEntries: new[]
@@ -160,6 +162,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 15, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 15, 22, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1087957963",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273002150101033",
                 Players: new[] { juliusOgen88, zognord, jaari, valmo, klutch },
                 JournalEntries: new[]
@@ -185,6 +188,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 16, 20, 0, 0),
                 EndDate: new DateTime(2021, 07, 16, 23, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1089262265",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273008199467088",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -206,6 +210,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 21, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 21, 22, 30, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273014239133707",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -227,6 +232,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 22, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 22, 22, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1095074500",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273020596387840",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -248,6 +254,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 23, 20, 0, 0),
                 EndDate: new DateTime(2021, 07, 23, 23, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1099327330",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273027836936212",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -269,6 +276,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 24, 15, 0, 0),
                 EndDate: new DateTime(2021, 07, 24, 18, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1096896122",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273033910419486",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -290,6 +298,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 28, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 28, 22, 30, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1101193227",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273039534719047",
                 Players: new[] { gur, dhanlbek, kilmi, other4, other5 },
                 JournalEntries: default
@@ -303,6 +312,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 29, 19, 30, 0),
                 EndDate: new DateTime(2021, 07, 29, 22, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1102246201",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273045993553920",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -316,6 +326,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 30, 20, 0, 0),
                 EndDate: new DateTime(2021, 07, 31, 0, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1107044101",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273052062187531",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
@@ -329,6 +340,7 @@ namespace LesBatisseursDeNations.Data
                 StartDate: new DateTime(2021, 07, 31, 15, 0, 0),
                 EndDate: new DateTime(2021, 07, 31, 18, 0, 0),
                 YouTubeEmbededUri: "",
+                TwitchVideoId: "1104077067",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273057981661215",
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]

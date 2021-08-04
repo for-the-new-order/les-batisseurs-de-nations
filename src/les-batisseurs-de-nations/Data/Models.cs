@@ -13,8 +13,9 @@ namespace LesBatisseursDeNations.Data
         string Description,
         TwitchChannel Streamer,
         DateTime StartDate, 
-        DateTime EndDate, 
-        string YouTubeEmbededUri, 
+        DateTime EndDate,
+        string TwitchVideoId,
+        string YouTubeEmbededUri,
         string DiscordLink,
         IEnumerable<Player> Players,
         IEnumerable<JournalEntry> JournalEntries
@@ -26,6 +27,7 @@ namespace LesBatisseursDeNations.Data
         public bool HasPlayers => Players != null && Players.Any();
         public bool HasDiscordLink => !string.IsNullOrEmpty(DiscordLink);
         public bool HasYouTubeUri => !string.IsNullOrEmpty(YouTubeEmbededUri);
+        public bool HasTwitchVideoId => !string.IsNullOrEmpty(TwitchVideoId);
         public bool HasTitle => !string.IsNullOrEmpty(Title);
         public bool HasDescription => !string.IsNullOrEmpty(Description);
 
