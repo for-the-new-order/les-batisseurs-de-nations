@@ -15,6 +15,12 @@ namespace LesBatisseursDeNations.Data
 
         public Database() => Seed();
 
+        private Player other1;
+        private Player other2;
+        private Player other3;
+        private Player other4;
+        private Player other5;
+
         public void Seed()
         {
             // Players (team)
@@ -50,6 +56,14 @@ namespace LesBatisseursDeNations.Data
                 CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/18919/152/character-53047510.jpeg",
                 IsTeamMember: true
             ));
+            var kilgur = AddPlayer(new(
+                Id: 5,
+                DisplayName: "Kilgur Grandfeu",
+                ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/players/members/Kilgur-Token.jpeg",
+                CharacterSheetUri: "https://www.dndbeyond.com/characters/53901830",
+                CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19358/312/character-53901830.jpe",
+                IsTeamMember: true
+            ));
 
             // Players (non-team)
             var nalvyna = AddPlayer(new(
@@ -73,11 +87,11 @@ namespace LesBatisseursDeNations.Data
             var klutch = AddAuthor(id: 110, displayName: "Kellen Lutchen (Klutch)");
 
             // Other players
-            var other1 = AddAuthor(id: -1, displayName: "Joueur 1", profileImageUri: "");
-            var other2 = AddAuthor(id: -2, displayName: "Joueur 2", profileImageUri: "");
-            var other3 = AddAuthor(id: -3, displayName: "Joueur 3", profileImageUri: "");
-            var other4 = AddAuthor(id: -4, displayName: "Joueur 4", profileImageUri: "");
-            var other5 = AddAuthor(id: -5, displayName: "Joueur 5", profileImageUri: "");
+            other1 = AddAuthor(id: -1, displayName: "Joueur 1", profileImageUri: "");
+            other2 = AddAuthor(id: -2, displayName: "Joueur 2", profileImageUri: "");
+            other3 = AddAuthor(id: -3, displayName: "Joueur 3", profileImageUri: "");
+            other4 = AddAuthor(id: -4, displayName: "Joueur 4", profileImageUri: "");
+            other5 = AddAuthor(id: -5, displayName: "Joueur 5", profileImageUri: "");
 
             // TwitchChannels
             var onStartTuCa = AddTwitchChannel(new(
@@ -328,7 +342,7 @@ namespace LesBatisseursDeNations.Data
                 YouTubeEmbededUri: "",
                 TwitchVideoId: "1107044101",
                 DiscordLink: "https://discord.com/channels/662746189069942802/859589836225511424/860273052062187531",
-                Players: new[] { other1, other2, other3, other4, other5 },
+                Players: new[] { other1, other2, other3, mamita, other5 },
                 JournalEntries: new JournalEntry[0]
             ));
             Episodes.Add(new(
@@ -345,6 +359,42 @@ namespace LesBatisseursDeNations.Data
                 Players: new[] { other1, other2, other3, other4, other5 },
                 JournalEntries: new JournalEntry[0]
             ));
+
+            // Aout 2021
+            AddEpisode(
+                episodeNumber: 13,
+                streamer: puppo,
+                startDate: new DateTime(2021, 08, 4, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232943764144158",
+                player1: mamita,
+                player2: kilgur,
+                player3: kilmi,
+                configure: episode => episode
+            );
+        }
+
+        private EpisodeInfo AddEpisode(
+            int episodeNumber, TwitchChannel streamer, DateTime startDate, string discordLink,
+            Player player1 = default, Player player2 = default, Player player3 = default, Player player4 = default, Player player5 = default,
+            Func<EpisodeInfo, EpisodeInfo> configure = null)
+        {
+            var episode = new EpisodeInfo(
+                Season: 1,
+                Number: episodeNumber,
+                Title: "",
+                Description: "",
+                Streamer: streamer,
+                StartDate: startDate,
+                EndDate: startDate.AddHours(3),
+                YouTubeEmbededUri: "",
+                TwitchVideoId: "",
+                DiscordLink: discordLink,
+                Players: new[] { player1 ?? other1, player2 ?? other2, player3 ?? other3, player4 ?? other4, player5 ?? other5 },
+                JournalEntries: new JournalEntry[0]
+            );
+            var configuredEpisode = configure?.Invoke(episode);
+            Episodes.Add(configuredEpisode ?? episode);
+            return episode;
         }
 
         private Player AddPlayer(Player player)
