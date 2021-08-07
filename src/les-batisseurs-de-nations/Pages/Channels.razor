@@ -1,0 +1,51 @@
+﻿@page "/channels"
+@inject ITwitchChannelsService ChannelsService
+@inject NavigationManager NavigationManager
+
+<PageHeader Title="Streams" Description="Liste des streams des Terres Perdues" Items="_items" />
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
+    <MudGrid Justify="Justify.Center">
+        @if (_channels != null)
+        {
+            var parent = NavigationManager.TwitchEmbedParent();
+            foreach (var channel in _channels)
+            {
+                var src = $"https://player.twitch.tv/?channel={channel.DisplayName}&parent={parent}&autoplay=false";
+                <MudItem md="6" Class="channel-card">
+                    <iframe src="@src" allowfullscreen="false"></iframe>
+                </MudItem>
+            }
+        }
+        else
+        {
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="6">
+                <StreamLoadingCard />
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code{
+    private IEnumerable<TwitchChannel> _channels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(2000);
+        _channels = await ChannelsService.AllAsync();
+    }
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Accueil", href: "/", icon: MudBlazor.Icons.Outlined.Home),
+        new BreadcrumbItem("Channels", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.PlayArrow),
+    };
+}

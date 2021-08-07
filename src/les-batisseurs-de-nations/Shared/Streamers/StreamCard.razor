@@ -50,7 +50,7 @@
 
         @if (Info.HasTwitchVideoId)
         {
-            var parent = NavigationManager.IsLocalHost() ? "localhost" : "les-batisseurs-de-nations.rpg.solutions";
+            var parent = NavigationManager.TwitchEmbedParent();
             <MudPaper Elevation="0" Class="youtube-iframe-container mt-3">
                 <iframe src="https://player.twitch.tv/?video=v@(Info.TwitchVideoId)&parent=@parent&autoplay=false"
                         height="720"
