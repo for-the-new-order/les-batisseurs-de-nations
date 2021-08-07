@@ -69,7 +69,7 @@ namespace LesBatisseursDeNations.Data
         public bool HasCharacterSheetUri => !string.IsNullOrEmpty(CharacterSheetUri);
         public bool HasCharacterSheetImageUri => !string.IsNullOrEmpty(CharacterSheetImageUri);
     }
-    public record TwitchChannel(Streamer StreamerId, string DisplayName, string ProfileImageUri, string ChannelUri);
+    public record TwitchChannel(Streamer StreamerId, string DisplayName, string ProfileImageUri, string ChannelUri, string ChannelName);
 
     public enum Streamer
     {

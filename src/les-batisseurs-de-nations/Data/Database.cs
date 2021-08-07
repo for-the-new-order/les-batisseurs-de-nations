@@ -98,25 +98,29 @@ namespace LesBatisseursDeNations.Data
                 StreamerId: Streamer.OnStartTuCa,
                 DisplayName: "On start tu ça?",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/onstarttuca-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/onstarttuca"
+                ChannelUri: "https://www.twitch.tv/onstarttuca",
+                ChannelName: "onstarttuca"
             ));
             var fenyxLair = AddTwitchChannel(new(
                 StreamerId: Streamer.FenyxLair,
                 DisplayName: "The Fenyx Lair",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/fenyx-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/thefenyxlair"
+                ChannelUri: "https://www.twitch.tv/thefenyxlair",
+                ChannelName: "thefenyxlair"
             ));
             var puppo = AddTwitchChannel(new(
                 StreamerId: Streamer.Puppo,
                 DisplayName: "Pour une poignee de pieces d'or",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/puppo-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/pourunepoigneedepiecesdor"
+                ChannelUri: "https://www.twitch.tv/pourunepoigneedepiecesdor",
+                ChannelName: "pourunepoigneedepiecesdor"
             ));
             var havgood = AddTwitchChannel(new(
                 StreamerId: Streamer.Havgood,
                 DisplayName: "havgood",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/havgood-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/havgood"
+                ChannelUri: "https://www.twitch.tv/havgood",
+                ChannelName: "havgood"
             ));
 
             // Episodes
