@@ -4,26 +4,24 @@
 <MudNavMenu>
     <MudNavLink Href="/" Icon="@MudBlazor.Icons.Outlined.Home" Match="NavLinkMatch.All">Accueil</MudNavLink>
 
-    <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.OndemandVideo" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
-    <MudNavGroup Title="Chaines" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
+    <MudNavGroup Title="Chaines" Icon="@MudBlazor.Icons.Outlined.OndemandVideo">
+        <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.VideoLibrary" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
         @foreach (var channel in Channels)
         {
             var channelLink = $"/channels/{channel.ChannelName}";
-            <MudNavLink Href="@channelLink">@channel.DisplayName</MudNavLink>
+            <MudNavLink Href="@channelLink" Icon="@MudBlazor.Icons.Outlined.PlayArrow">@channel.DisplayName</MudNavLink>
         }
     </MudNavGroup>
 
-    <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.PlayArrow" Match="NavLinkMatch.All">Tous les épisodes</MudNavLink>
     <MudNavGroup Title="Episodes" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
-        @foreach (var season in Seasons)
+        <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.VideoLibrary" Match="NavLinkMatch.All">Tous les épisodes</MudNavLink>
+        @foreach (var group in EpisodeGroups)
         {
-            var seasonKey = $"S{season.Number:00}";
-            var seasonTitle = $"Season {season.Number}";
-            <MudNavGroup Title="@seasonTitle" Expanded="true" HideExpandIcon="true">
-                @foreach (var episode in season.Episodes)
+            <MudNavGroup Title="@group.GroupTitle" Expanded="@group.Expanded" HideExpandIcon="false">
+                @foreach (var episode in group.Episodes)
                 {
-                    var episodeKey = $"S{season.Number:00}E{episode.Number:00}";
-                    var episodeLink = $"/streams/seasons/{season.Number}/episodes/{episode.Number}";
+                    var episodeKey = $"S{episode.Season:00}E{episode.Number:00}";
+                    var episodeLink = $"/streams/seasons/{episode.Season}/episodes/{episode.Number}";
                     var episodeTitle = $"Episode {episode.Number}";
                     var icon = episode.HasTeamMembers
                         ? MudBlazor.Icons.Sharp.LocalFireDepartment
@@ -62,17 +60,21 @@
 
 *@
 @code{
-    IEnumerable<Season> Seasons { get; set; }
-    IEnumerable<TwitchChannel> Channels { get; set; }
+        IEnumerable<TwitchChannel> Channels { get; set; }
+        IEnumerable<(string GroupTitle, bool Expanded, IOrderedEnumerable<EpisodeInfo> Episodes)> EpisodeGroups { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        //State = PageState.Loading;
-        //await Task.Delay(2000);
-        Seasons = await EpisodesService.AllSeasons();
-        //Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
-        //State = Episode == null ? PageState.NotFound : PageState.Loaded;
+        var episodes = await EpisodesService.AllAsync();
+        var futureEpisodes = episodes.Where(x => x.EndDate > DateTime.UtcNow).OrderBy(x => x.StartDate);
+        var pastEpisodes = episodes.Except(futureEpisodes).OrderBy(x => x.StartDate);
+
+        EpisodeGroups = new[] {
+            ("Épisodes passés", false, pastEpisodes),
+            ("Épisodes à venir", true, futureEpisodes),
+        };
+
         Channels = await ChannelService.AllAsync();
     }
 }
