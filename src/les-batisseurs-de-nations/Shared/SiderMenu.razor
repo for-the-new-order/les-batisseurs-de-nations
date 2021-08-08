@@ -4,6 +4,9 @@
 <MudNavMenu>
     <MudNavLink Href="/" Icon="@MudBlazor.Icons.Outlined.Home" Match="NavLinkMatch.All">Accueil</MudNavLink>
 
+    <MudNavLink Disabled="true" Icon="@MudBlazor.Icons.Outlined.Build">Constructions</MudNavLink>
+    <MudNavLink Disabled="true" Icon="@MudBlazor.Icons.Filled.LocalFireDepartment">Le guide des nains</MudNavLink>
+
     <MudNavGroup Title="Chaines" Icon="@MudBlazor.Icons.Outlined.OndemandVideo">
         <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.VideoLibrary" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
         @foreach (var channel in Channels)
@@ -35,6 +38,7 @@
             </MudNavGroup>
         }
     </MudNavGroup>
+
 </MudNavMenu>
 
 @*<Menu Mode="MenuMode.Inline"
