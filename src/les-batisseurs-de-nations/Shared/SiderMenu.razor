@@ -1,9 +1,19 @@
 ﻿@inject UserOptions options;
 @inject IEpisodesService EpisodesService
-
+@inject ITwitchChannelsService ChannelService
 <MudNavMenu>
     <MudNavLink Href="/" Icon="@MudBlazor.Icons.Outlined.Home" Match="NavLinkMatch.All">Accueil</MudNavLink>
-    <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.PlayArrow" Match="NavLinkMatch.All">Streams</MudNavLink>
+
+    <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.OndemandVideo" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
+    <MudNavGroup Title="Chaines" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
+        @foreach (var channel in Channels)
+        {
+            var channelLink = $"/channels/{channel.ChannelName}";
+            <MudNavLink Href="@channelLink">@channel.DisplayName</MudNavLink>
+        }
+    </MudNavGroup>
+
+    <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.PlayArrow" Match="NavLinkMatch.All">Tous les épisodes</MudNavLink>
     <MudNavGroup Title="Episodes" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
         @foreach (var season in Seasons)
         {
@@ -53,6 +63,7 @@
 *@
 @code{
     IEnumerable<Season> Seasons { get; set; }
+    IEnumerable<TwitchChannel> Channels { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -62,5 +73,6 @@
         Seasons = await EpisodesService.AllSeasons();
         //Episode = await EpisodesService.FindAsync(SeasonNumber, EpisodeNumber);
         //State = Episode == null ? PageState.NotFound : PageState.Loaded;
+        Channels = await ChannelService.AllAsync();
     }
 }

@@ -1,0 +1,19 @@
+﻿@page "/channels/{channelName}"
+@inject ITwitchChannelsService ChannelService
+
+<TwitchEmbedFull Channel="_channel" @ref="twitchEmbed" />
+
+@code{
+    [Parameter]
+    public string ChannelName { get; set; }
+
+    private TwitchChannel _channel;
+
+    private TwitchEmbedFull twitchEmbed;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        _channel = await ChannelService.FindByNameAsync(ChannelName);
+    }
+}

@@ -1,30 +1,61 @@
 ﻿@page "/"
-@inject IJSRuntime JS
+@inject IEpisodesService EpisodesService
 
-<PageHeader Title="Accueil" Description="Bienvenue sur le site des bâtisseurs de nations!" Items="_items" />
+@if (!_isLive)
+{
+    <PageHeader Title="Accueil" Description="Bienvenue sur le site des bâtisseurs de nations!" Items="_items" />
+}
 
-@*<MudContainer Style="height: calc(100vh - 246px);">
+@if (_noNextEpisode)
+{
+    <MudContainer Style="height: calc(100vh - 246px);">
         <div style="background-image: url(https://cdn.rpg.solutions/les-batisseurs-de-nations/images/DwarvesGuide.jpg); background-repeat: no-repeat; background-size: contain; background-position: center; height:100%;"></div>
-    </MudContainer>*@
-
-<MudContainer Style="height: calc(100vh - 246px);">
-    <div id="twitch-embed" style="height: 100%;"></div>
-</MudContainer>
-
-
-
+    </MudContainer>
+}
+else if (_isLive)
+{
+    <TwitchEmbedFull Channel="_episode.Streamer" />
+}
+else
+{
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
+        <MudGrid Justify="Justify.Center">
+            <MudItem lg="@NextEpisodeCols" xs="12">
+                <NextStreamCard Episode="_episode" />
+            </MudItem>
+            @if (!_noNextClanEpisode)
+            {
+                <MudItem lg="@NextEpisodeCols" xs="12">
+                    <NextStreamCard Episode="_nextClanEpisode" />
+                </MudItem>
+            }
+        </MudGrid>
+    </MudContainer>
+}
 
 @code{
+    private EpisodeInfo _episode;
+    private bool _noNextEpisode => _episode == null;
+
+    private EpisodeInfo _nextClanEpisode;
+    private bool _noNextClanEpisode => _nextClanEpisode == null;
+
+    private int NextEpisodeCols => _noNextClanEpisode ? 12 : 6;
+
+    private StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
+    private bool _isLive => _episode != null && _liveState.Contains(_episode.State);
+
+    protected override async Task OnInitializedAsync()
+    {
+        _episode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date);
+        if (!_episode.HasTeamMembers)
+        {
+            _nextClanEpisode = await EpisodesService.FindNextClanEpisodeAsync(DateTime.UtcNow.Date);
+        }
+    }
+
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
 {
         new BreadcrumbItem("Accueil", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.Home),
     };
-
-    //twitchLive channel
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        await base.OnAfterRenderAsync(firstRender);
-        await JS.InvokeVoidAsync("twitchLive", "twitch-embed", "onstarttuca");
-    }
 }

@@ -99,3 +99,7 @@
         padding-top: calc(56.25% - 290px);
         border: 1px solid var(--mud-palette-lines-default);
     }
+
+.channel-card {
+    height: calc((100vh - 265px) / 2);
+}

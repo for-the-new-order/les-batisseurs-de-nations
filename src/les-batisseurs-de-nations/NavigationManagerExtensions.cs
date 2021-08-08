@@ -12,5 +12,11 @@ namespace Microsoft.AspNetCore.Components
         {
             return navigationManager.Uri.StartsWith("https://localhost", StringComparison.OrdinalIgnoreCase);
         }
+
+        public static string TwitchEmbedParent(this NavigationManager navigationManager)
+        {
+            var parent = navigationManager.IsLocalHost() ? "localhost" : "les-batisseurs-de-nations.rpg.solutions";
+            return parent;
+        }
     }
 }

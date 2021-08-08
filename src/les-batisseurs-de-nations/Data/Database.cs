@@ -61,9 +61,18 @@ namespace LesBatisseursDeNations.Data
                 DisplayName: "Kilgur Grandfeu",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/players/members/Kilgur-Token.jpeg",
                 CharacterSheetUri: "https://www.dndbeyond.com/characters/53901830",
-                CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19358/312/character-53901830.jpe",
+                CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19358/312/character-53901830.jpeg",
                 IsTeamMember: true
             ));
+            var reiauk = AddPlayer(new(
+                Id: 5,
+                DisplayName: "Reiauk Forcefeu",
+                ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/players/members/Reiauk-Token.jpeg",
+                CharacterSheetUri: "https://www.dndbeyond.com/characters/54314526",
+                CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19210/299/character-54314526.jpeg",
+                IsTeamMember: true
+            ));
+
 
             // Players (non-team)
             var nalvyna = AddPlayer(new(
@@ -98,25 +107,29 @@ namespace LesBatisseursDeNations.Data
                 StreamerId: Streamer.OnStartTuCa,
                 DisplayName: "On start tu ça?",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/onstarttuca-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/onstarttuca"
+                ChannelUri: "https://www.twitch.tv/onstarttuca",
+                ChannelName: "onstarttuca"
             ));
             var fenyxLair = AddTwitchChannel(new(
                 StreamerId: Streamer.FenyxLair,
                 DisplayName: "The Fenyx Lair",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/fenyx-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/thefenyxlair"
+                ChannelUri: "https://www.twitch.tv/thefenyxlair",
+                ChannelName: "thefenyxlair"
             ));
             var puppo = AddTwitchChannel(new(
                 StreamerId: Streamer.Puppo,
                 DisplayName: "Pour une poignee de pieces d'or",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/puppo-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/pourunepoigneedepiecesdor"
+                ChannelUri: "https://www.twitch.tv/pourunepoigneedepiecesdor",
+                ChannelName: "pourunepoigneedepiecesdor"
             ));
             var havgood = AddTwitchChannel(new(
                 StreamerId: Streamer.Havgood,
                 DisplayName: "havgood",
                 ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/streamers/havgood-profile_image-150x150.png",
-                ChannelUri: "https://www.twitch.tv/havgood"
+                ChannelUri: "https://www.twitch.tv/havgood",
+                ChannelName: "havgood"
             ));
 
             // Episodes
@@ -364,12 +377,86 @@ namespace LesBatisseursDeNations.Data
             AddEpisode(
                 episodeNumber: 13,
                 streamer: puppo,
-                startDate: new DateTime(2021, 08, 4, 19, 30, 0),
+                startDate: new DateTime(2021, 8, 4, 19, 30, 0),
                 discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232943764144158",
                 player1: mamita,
                 player2: kilgur,
-                player3: kilmi,
-                configure: episode => episode
+                player3: kilmi
+            );
+            AddEpisode(
+                episodeNumber: 14,
+                streamer: onStartTuCa,
+                startDate: new DateTime(2021, 8, 6, 20, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232950545154058"
+            );
+            AddEpisode(
+                episodeNumber: 15,
+                streamer: puppo,
+                startDate: new DateTime(2021, 8, 11, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232957218553886"
+            );
+            AddEpisode(
+                episodeNumber: 16,
+                streamer: fenyxLair,
+                startDate: new DateTime(2021, 8, 12, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232964965957632",
+                player1: reiauk,
+                player2: dhanlbek,
+                player3: kilmi
+            );
+            AddEpisode(
+                episodeNumber: 17,
+                streamer: onStartTuCa,
+                startDate: new DateTime(2021, 8, 13, 20, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232972691472384"
+            );
+            AddEpisode(
+                episodeNumber: 18,
+                streamer: havgood,
+                startDate: new DateTime(2021, 8, 14, 15, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232979885359114",
+                player3: dhanlbek
+            );
+            AddEpisode(
+                episodeNumber: 19,
+                streamer: fenyxLair,
+                startDate: new DateTime(2021, 8, 19, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232987753611274"
+            );
+            AddEpisode(
+                episodeNumber: 20,
+                streamer: onStartTuCa,
+                startDate: new DateTime(2021, 8, 20, 20, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232995516612628",
+                player1: gur,
+                player3: mamita
+            );
+            AddEpisode(
+                episodeNumber: 21,
+                streamer: puppo,
+                startDate: new DateTime(2021, 8, 25, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233002916544582"
+            );
+            AddEpisode(
+                episodeNumber: 22,
+                streamer: fenyxLair,
+                startDate: new DateTime(2021, 8, 26, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233010477432852",
+                player2: kilgur,
+                player3: reiauk,
+                player4: gur
+            );
+            AddEpisode(
+                episodeNumber: 23,
+                streamer: onStartTuCa,
+                startDate: new DateTime(2021, 8, 27, 20, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233018225754124"
+            );
+            AddEpisode(
+                episodeNumber: 24,
+                streamer: havgood,
+                startDate: new DateTime(2021, 8, 28, 15, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233025024720947"
             );
         }
 

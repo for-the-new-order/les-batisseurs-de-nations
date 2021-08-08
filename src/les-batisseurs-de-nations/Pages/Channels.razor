@@ -1,0 +1,72 @@
+﻿@page "/channels"
+@inject ITwitchChannelsService ChannelsService
+@inject NavigationManager NavigationManager
+
+<PageHeader Title="Chaines" Description="Liste des chaines Twitch des Terres Perdues" Items="_items" />
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
+    <MudGrid Justify="Justify.Center">
+        @if (_channels != null)
+        {
+            var parent = NavigationManager.TwitchEmbedParent();
+            foreach (var channel in _channels)
+            {
+                var src = $"https://player.twitch.tv/?channel={channel.ChannelName}&parent={parent}&autoplay=false";
+                <MudItem sm="6" lg="4" xl="3">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderAvatar>
+                                <MudTooltip Text="@channel.DisplayName" Placement="Placement.Top">
+                                    <MudAvatar Image="@channel.ProfileImageUri" Class="ml-n3"></MudAvatar>
+                                </MudTooltip>
+                            </CardHeaderAvatar>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.body1">@channel.DisplayName</MudText>
+                                <MudText Typo="Typo.body2">@channel.ChannelUri</MudText>
+                            </CardHeaderContent>
+                        </MudCardHeader>
+                        <MudCardContent Class="channel-card">
+                            <iframe src="@src" allowfullscreen="false"></iframe>
+                        </MudCardContent>
+                        <MudCardActions Class="justify-flex-end">
+                            @{
+                                var link = $"/streams/{channel.ChannelName}";
+                            }
+                            <MudButton Link="@link" Variant="Variant.Filled" Color="Color.Primary">Allez voir la chaine</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+
+                </MudItem>
+            }
+        }
+        else
+        {
+            <MudItem sm="3">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="3">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="3">
+                <StreamLoadingCard />
+            </MudItem>
+            <MudItem sm="3">
+                <StreamLoadingCard />
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code{
+    private IEnumerable<TwitchChannel> _channels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _channels = await ChannelsService.AllAsync();
+    }
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+{
+        new BreadcrumbItem("Accueil", href: "/", icon: MudBlazor.Icons.Outlined.Home),
+        new BreadcrumbItem("Channels", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.OndemandVideo),
+    };
+}
