@@ -5,10 +5,11 @@
     <MudNavLink Href="/" Icon="@MudBlazor.Icons.Outlined.Home" Match="NavLinkMatch.All">Accueil</MudNavLink>
 
     <MudNavLink Disabled="true" Icon="@MudBlazor.Icons.Outlined.Build">Constructions</MudNavLink>
+    <MudNavLink Disabled="true" Icon="@MudBlazor.Icons.Outlined.Interests">Resources</MudNavLink>
     <MudNavLink Disabled="true" Icon="@MudBlazor.Icons.Filled.LocalFireDepartment">Le guide des nains</MudNavLink>
 
-    <MudNavGroup Title="Chaines" Icon="@MudBlazor.Icons.Outlined.OndemandVideo">
-        <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.VideoLibrary" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
+    <MudNavGroup Title="Chaines" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
+        <MudNavLink Href="/channels" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark" Match="NavLinkMatch.All">Toutes les chaines</MudNavLink>
         @foreach (var channel in Channels)
         {
             var channelLink = $"/channels/{channel.ChannelName}";
@@ -16,11 +17,11 @@
         }
     </MudNavGroup>
 
-    <MudNavGroup Title="Episodes" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
+    <MudNavGroup Title="Episodes" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.VideoLibrary">
         <MudNavLink Href="/streams" Icon="@MudBlazor.Icons.Outlined.VideoLibrary" Match="NavLinkMatch.All">Tous les épisodes</MudNavLink>
         @foreach (var group in EpisodeGroups)
         {
-            <MudNavGroup Title="@group.GroupTitle" Expanded="@group.Expanded" HideExpandIcon="false">
+            <MudNavGroup Title="@group.GroupTitle" Expanded="@group.Expanded" HideExpandIcon="false" Icon="@MudBlazor.Icons.Outlined.VideoLibrary">
                 @foreach (var episode in group.Episodes)
                 {
                     var episodeKey = $"S{episode.Season:00}E{episode.Number:00}";
