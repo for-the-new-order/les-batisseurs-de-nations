@@ -28,7 +28,7 @@ namespace LesBatisseursDeNations.Shared.Streamers
         public static string GetPlayDescription(this EpisodeInfo episode, UserOptions options) => episode.State switch
         {
             StreamState.Ended => $"L'épisode a joué {episode.StartDate.ToString("dddd le d MMMM yyyy", options.Culture)}",
-            _ when episode.StartDate.DayOfYear == episode.EndDate.DayOfYear => $"Débute {episode.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} à {episode.EndDate.ToString("h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
+            _ when episode.StartDate.DayOfYear == episode.EndDate.DayOfYear => $"Débute {episode.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
             _ => $"Débute {episode.StartDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} et prend fin {episode.EndDate.ToString("dddd le d MMMM yyyy à h\\:mm tt", options.Culture)} (GMT{DateTimeExtensions.EasternZone.BaseUtcOffset.Hours})",
         };
     }

@@ -27,6 +27,12 @@
                         <MudCardContent Class="channel-card">
                             <iframe src="@src" allowfullscreen="false"></iframe>
                         </MudCardContent>
+                        <MudCardActions Class="justify-flex-end">
+                            @{
+                                var link = $"/streams/{channel.ChannelName}";
+                            }
+                            <MudButton Link="@link" Variant="Variant.Filled" Color="Color.Primary">Allez voir la chaine</MudButton>
+                        </MudCardActions>
                     </MudCard>
 
                 </MudItem>

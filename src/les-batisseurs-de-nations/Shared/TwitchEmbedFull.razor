@@ -1,6 +1,6 @@
 ﻿@inject IJSRuntime JS
 
-<div style="height: calc(100vh - 65px);">
+<div style="@Style">
     <div id="twitch-embed" style="height: 100%;"></div>
 </div>
 
@@ -8,9 +8,23 @@
     [Parameter]
     public TwitchChannel Channel { get; set; }
 
+    [Parameter]
+    public bool EmbedOnLoad { get; set; } = true;
+
+    [Parameter]
+    public string Style { get; set; } = "height: calc(100vh - 65px);";
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        await JS.InvokeVoidAsync("twitchLive", "twitch-embed", Channel.DisplayName);
+        if (EmbedOnLoad)
+        {
+            await EmbedTwitch();
+        }
+    }
+
+    public ValueTask EmbedTwitch()
+    {
+        return JS.InvokeVoidAsync("twitchLive", "twitch-embed", Channel.ChannelName);
     }
 }

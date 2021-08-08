@@ -19,6 +19,8 @@ namespace LesBatisseursDeNations.Data
         Task<IEnumerable<EpisodeInfo>> AllAsync();
         Task<EpisodeInfo> FindAsync(int seasonNumber, int episodeNumber);
         Task<IEnumerable<Season>> AllSeasons();
+        Task<EpisodeInfo> FindNextAsync(DateTime now);
+        Task<EpisodeInfo> FindNextClanEpisodeAsync(DateTime now);
     }
 
     public class StaticDataService : IPlayersService, ITwitchChannelsService, IEpisodesService
@@ -27,6 +29,26 @@ namespace LesBatisseursDeNations.Data
         public StaticDataService(Database database)
         {
             _database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
+        public Task<EpisodeInfo> FindNextAsync(DateTime now)
+        {
+            var next = _database.Episodes
+                .Where(x => x.StartDate > now)
+                .OrderBy(x => x.StartDate)
+                .FirstOrDefault()
+            ;
+            return Task.FromResult(next);
+        }
+
+        public Task<EpisodeInfo> FindNextClanEpisodeAsync(DateTime now)
+        {
+            var next = _database.Episodes
+                .Where(x => x.HasTeamMembers && x.StartDate > now)
+                .OrderBy(x => x.StartDate)
+                .FirstOrDefault()
+            ;
+            return Task.FromResult(next);
         }
 
         Task<IEnumerable<TwitchChannel>> ITwitchChannelsService.AllAsync()

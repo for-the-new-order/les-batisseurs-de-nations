@@ -64,6 +64,15 @@ namespace LesBatisseursDeNations.Data
                 CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19358/312/character-53901830.jpe",
                 IsTeamMember: true
             ));
+            var reiauk = AddPlayer(new(
+                Id: 5,
+                DisplayName: "Reiauk Forcefeu",
+                ProfileImageUri: "https://cdn.rpg.solutions/les-batisseurs-de-nations/images/players/members/Reiauk-Token.jpeg",
+                CharacterSheetUri: "https://www.dndbeyond.com/characters/54314526",
+                CharacterSheetImageUri: "https://media-waterdeep.cursecdn.com/avatars/19210/299/character-54314526.jpeg",
+                IsTeamMember: true
+            ));
+
 
             // Players (non-team)
             var nalvyna = AddPlayer(new(
@@ -368,12 +377,32 @@ namespace LesBatisseursDeNations.Data
             AddEpisode(
                 episodeNumber: 13,
                 streamer: puppo,
-                startDate: new DateTime(2021, 08, 4, 19, 30, 0),
+                startDate: new DateTime(2021, 8, 4, 19, 30, 0),
                 discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232943764144158",
                 player1: mamita,
                 player2: kilgur,
-                player3: kilmi,
-                configure: episode => episode
+                player3: kilmi
+            );
+            AddEpisode(
+                episodeNumber: 14,
+                streamer: onStartTuCa,
+                startDate: new DateTime(2021, 8, 6, 20, 0, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232950545154058"
+            );
+            AddEpisode(
+                episodeNumber: 15,
+                streamer: puppo,
+                startDate: new DateTime(2021, 8, 11, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232957218553886"
+            );
+            AddEpisode(
+                episodeNumber: 16,
+                streamer: fenyxLair,
+                startDate: new DateTime(2021, 8, 12, 19, 30, 0),
+                discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867232964965957632",
+                player1: reiauk,
+                player2: dhanlbek,
+                player3: kilmi
             );
         }
 

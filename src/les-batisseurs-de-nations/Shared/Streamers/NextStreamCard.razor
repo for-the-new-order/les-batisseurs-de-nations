@@ -1,0 +1,53 @@
+﻿@inject UserOptions options
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderAvatar>
+            @if (Episode.HasTeamMembers)
+            {
+                <MudTooltip Text="Les batisseurs de nations" Placement="Placement.Top">
+                    <MudIcon Icon="@MudBlazor.Icons.Sharp.LocalFireDepartment" Size="@Size.Large" Color="Color.Error"></MudIcon>
+                </MudTooltip>
+            }
+            <MudTooltip Text="@Episode.Streamer.DisplayName" Placement="Placement.Top">
+                <MudAvatar Image="@Episode.Streamer.ProfileImageUri" Class="ml-n3"></MudAvatar>
+            </MudTooltip>
+        </CardHeaderAvatar>
+        <CardHeaderContent>
+            <MudText Typo="Typo.body1">Le prochain épisode@(Episode.HasTeamMembers ? " du clan feu" : ""): Épisode @Episode.Number — @Episode.Streamer.DisplayName</MudText>
+            <MudText Typo="Typo.body2">@Episode.GetPlayDescription(options)</MudText>
+        </CardHeaderContent>
+        <CardHeaderActions>
+            <div class="ma-3">
+                @foreach (var player in Episode.Players)
+                {
+                    var size = player.IsTeamMember ? Size.Medium : Size.Medium;
+                    <MudTooltip Text="@player.DisplayName" Placement="Placement.Top">
+                        @if (player.HasProfileImageUri)
+                        {
+                            <MudAvatar Image="@player.ProfileImageUri" Size="@size" Class="ml-n3" />
+                        }
+                        else
+                        {
+                            var style = string.Format("background-color: #333; color: #666; border:1px solid #444;");
+                            <MudAvatar Size="@Size.Small" Class="ml-n1" Variant="Variant.Filled" Style="@style">
+                                <MudIcon Icon="iconfont icon-user" />
+                            </MudAvatar>
+                        }
+                    </MudTooltip>
+                }
+            </div>
+        </CardHeaderActions>
+    </MudCardHeader>
+    <MudCardActions Class="justify-flex-end">
+        @{
+            var link = $"/streams/{Episode.Streamer.ChannelName}";
+        }
+        <MudButton Link="@link" Variant="Variant.Filled" Color="Color.Primary">Allez à la chaine @Episode.Streamer.DisplayName</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code{
+    [Parameter]
+    public EpisodeInfo Episode { get; set; }
+}
