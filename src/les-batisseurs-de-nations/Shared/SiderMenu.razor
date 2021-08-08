@@ -8,7 +8,7 @@
     <MudNavGroup Title="Chaines" Expanded="true" HideExpandIcon="true" Icon="@MudBlazor.Icons.Outlined.CollectionsBookmark">
         @foreach (var channel in Channels)
         {
-            var channelLink = "#";
+            var channelLink = $"/channels/{channel.ChannelName}";
             <MudNavLink Href="@channelLink">@channel.DisplayName</MudNavLink>
         }
     </MudNavGroup>

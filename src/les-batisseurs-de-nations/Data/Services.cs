@@ -13,6 +13,7 @@ namespace LesBatisseursDeNations.Data
     public interface ITwitchChannelsService
     {
         Task<IEnumerable<TwitchChannel>> AllAsync();
+        Task<TwitchChannel> FindByNameAsync(string channelName);
     }
     public interface IEpisodesService
     {
@@ -29,6 +30,12 @@ namespace LesBatisseursDeNations.Data
         public StaticDataService(Database database)
         {
             _database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
+        public Task<TwitchChannel> FindByNameAsync(string channelName)
+        {
+            var channel = _database.TwitchChannels.FirstOrDefault(x => x.ChannelName == channelName);
+            return Task.FromResult(channel);
         }
 
         public Task<EpisodeInfo> FindNextAsync(DateTime now)

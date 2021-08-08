@@ -19,12 +19,24 @@
         await base.OnAfterRenderAsync(firstRender);
         if (EmbedOnLoad)
         {
-            await EmbedTwitch();
+            if (firstRender)
+            {
+                await EmbedTwitchAsync();
+            }
+            else
+            {
+                await SetChannelAsync();
+            }
         }
     }
 
-    public ValueTask EmbedTwitch()
+    public ValueTask EmbedTwitchAsync()
     {
         return JS.InvokeVoidAsync("twitchLive", "twitch-embed", Channel.ChannelName);
+    }
+
+    public ValueTask SetChannelAsync()
+    {
+        return JS.InvokeVoidAsync("setChannel", Channel.ChannelName);
     }
 }

@@ -41,7 +41,7 @@
     </MudCardHeader>
     <MudCardActions Class="justify-flex-end">
         @{
-            var link = $"/streams/{Episode.Streamer.ChannelName}";
+            var link = $"/channels/{Episode.Streamer.ChannelName}";
         }
         <MudButton Link="@link" Variant="Variant.Filled" Color="Color.Primary">Allez à la chaine @Episode.Streamer.DisplayName</MudButton>
     </MudCardActions>
