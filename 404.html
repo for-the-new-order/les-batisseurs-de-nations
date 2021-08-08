@@ -25,22 +25,8 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script src="iconfont/iconfont.js"></script>
-
-    <!-- Load the Twitch embed JavaScript file -->
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
-
-    <!-- Create a Twitch.Embed object that will render within the "twitch-embed" element -->
-    <script type="text/javascript">
-        function twitchLive(elementId, channelName) {
-            new Twitch.Embed(elementId, {
-                width: 854,
-                height: 480,
-                channel: channelName,
-                // Only needed if this page is going to be embedded on other websites
-                //parent: ["embed.example.com", "othersite.example.com"]
-            });
-        }
-    </script>
+    <script src="js/site.js"></script>
 </body>
 
 </html>
