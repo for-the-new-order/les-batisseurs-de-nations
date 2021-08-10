@@ -47,7 +47,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _episode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date);
+        _episode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date.ConvertUtcToEasternTime());
         if (!_episode.HasTeamMembers)
         {
             _nextClanEpisode = await EpisodesService.FindNextClanEpisodeAsync(DateTime.UtcNow.Date);
