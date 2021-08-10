@@ -127,3 +127,20 @@
     .logo:hover > span {
         color: var(--mud-palette-primary-text);
     }
+.live-stream {
+    color: var(--mud-palette-error);
+    font-weight: bold;
+    opacity: 1;
+    animation: live-stream-fade 4s infinite;
+}
+
+
+@keyframes live-stream-fade {
+    0%, 100% {
+        opacity: 0
+    }
+
+    30%, 70% {
+        opacity: 1
+    }
+}

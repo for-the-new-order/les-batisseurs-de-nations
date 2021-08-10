@@ -1,0 +1,27 @@
+﻿@inject IEpisodesService EpisodesService
+@inject NavigationManager NavigationManager
+
+@if (_isLive)
+{
+    if (_isHomePage)
+    {
+        <div class="live-stream">&#x29BF;&nbsp;LIVE STREAM</div>
+    }
+    else
+    {
+        <a href="/"><div class="live-stream">&#x29BF;&nbsp;LIVE STREAM</div></a>
+    }
+}
+
+@code{
+    private EpisodeInfo _episode;
+    private StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
+    private bool _isLive => _episode != null && _liveState.Contains(_episode.State);
+    private bool _isHomePage = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _episode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date.ConvertUtcToEasternTime());
+        _isHomePage = new Uri(NavigationManager.Uri).AbsolutePath == "/";
+    }
+}

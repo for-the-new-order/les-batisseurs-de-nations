@@ -8,6 +8,7 @@
             <strong>Les batisseurs de nations</strong>
             <span>Les terres perdues</span>
         </a>
+        <LiveStreamIndicator />
         <MudSpacer />
         <MudIconButton Icon="@MudBlazor.Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
@@ -29,66 +30,3 @@
         _drawerOpen = !_drawerOpen;
     }
 }
-
-@*<Layout>
-        <Header Class="header">
-            <div class="logo">Les batisseurs de nations</div>
-        </Header>
-        <Layout>
-            <Sider Theme="options.SiderTheme" Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
-                <SiderMenu />
-            </Sider>
-            <Layout Style="min-height: calc(100vh - 134px);">
-                <Content Style="padding: 24px;" Class="dark-layout">
-                    @Body
-                </Content>
-                <BackTop></BackTop>
-            </Layout>
-        </Layout>
-        <Footer Style="background: #001529; color: #CCC;">
-            <Row>
-                <Col Span="24" Style="text-align:center;">
-                © 2021 <a href="https://github.com/for-the-new-order/les-batisseurs-de-nations" target="_blank">
-                    <Icon Type="github" Theme="outline" Style="color: #EFEFEF;" />
-                    Les Batisseurs de Nations
-                </a>.
-                Built by <a href="https://twitter.com/CarlHugoM" target="_blank">
-                    <Icon Type="twitter" Theme="outline" />
-                    Carl-Hugo Marcotte
-                </a>.
-                An experiment powered by <a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/" target="_blank">
-                    <DotNetIcon />
-                    Blazor
-                </a> &
-                <a href="https://antblazor.com/en-US/" target="_blank" title="Ant Design">
-                    <Icon Type="ant-design" Theme="outline" Style="color:#C00;" />
-                    Ant Design
-                </a>.
-                </Col>
-            </Row>
-        </Footer>
-    </Layout>
-
-    <style>
-        #components-layout-demo-top-side-2 .logo {
-            width: 120px;
-            height: 31px;
-            background: rgba(255, 255, 255, 0.2);
-            margin: 16px 28px 16px 0;
-            float: left;
-        }
-
-        .site-layout-background {
-            background: #fff;
-        }
-    </style>
-
-    @code {
-        bool collapsed;
-
-        void onCollapse(bool collapsed)
-        {
-            Console.WriteLine(collapsed);
-            this.collapsed = collapsed;
-        }
-    }*@
