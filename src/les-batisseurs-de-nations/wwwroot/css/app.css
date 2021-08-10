@@ -103,3 +103,27 @@
 .channel-card {
     height: calc((100vh - 265px) / 2);
 }
+
+.logo {
+    background: url(/favicon/favicon-32x32.png) no-repeat left center;
+    padding: 2px 15px 0 42px;
+}
+    .logo strong {
+        text-transform: uppercase;
+        color: var(--mud-palette-primary-lighten);
+        letter-spacing: 2px;
+    }
+
+    .logo > span {
+        display: block;
+        letter-spacing: 5.9px;
+        text-transform: uppercase;
+    }
+
+    .logo:hover strong {
+        color: var(--mud-palette-primary);
+    }
+
+    .logo:hover > span {
+        color: var(--mud-palette-primary-text);
+    }
