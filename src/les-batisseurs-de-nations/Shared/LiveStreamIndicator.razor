@@ -3,13 +3,23 @@
 
 @if (_isLive)
 {
+    var text = "LIVE STREAM";
+    if (_nextEpisode.State == StreamState.StartingSoon)
+    {
+        text = "STARTING SOON";
+    }
     if (_isHomePage)
     {
-        <div class="live-stream">&#x29BF;&nbsp;LIVE STREAM</div>
+        <div class="live-stream">&#x29BF;&nbsp;@text</div>
     }
     else
     {
-        <a href="/"><div class="live-stream">&#x29BF;&nbsp;LIVE STREAM</div></a>
+        <a href="/"><div class="live-stream">&#x29BF;&nbsp;@text</div></a>
+    }
+    if (_nextEpisode.State == StreamState.StartingSoon)
+    {
+        <text>&nbsp;</text>
+        <CountdownClock Target="_nextEpisode.StartDate" />
     }
 }
 else if (_nextEpisode != null)

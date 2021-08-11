@@ -53,6 +53,10 @@ namespace LesBatisseursDeNations.Shared
         {
             var now = DateTime.UtcNow.ConvertUtcToEasternTime();
             var nextEpisodeIsIn = NextEpisode.SoonBeforeStart - now;
+            if(nextEpisodeIsIn.TotalMilliseconds <= 0)
+            {
+                nextEpisodeIsIn = NextEpisode.StartDate - now;
+            }
             var interval = nextEpisodeIsIn.TotalMilliseconds < OneHour
                 ? nextEpisodeIsIn.TotalMilliseconds
                 : OneHour;
