@@ -33,17 +33,22 @@ namespace LesBatisseursDeNations.Data
 
         public bool HasTeamMembers => Players.Any(x => x.IsTeamMember);
 
+        public DateTime SoonBeforeStart => StartDate.AddMinutes(-30);
+        public DateTime SoonAfterEnd => StartDate.AddMinutes(30);
+
+        private readonly StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
+        public bool IsLive => _liveState.Contains(State);
+
+
         private StreamState GetStreamState()
         {
             var now = DateTime.UtcNow.ConvertUtcToEasternTime();
-            var soonBeforeStart = StartDate.AddMinutes(-30);
-            var soonAfterEnd = StartDate.AddMinutes(30);
             return now switch
             {
-                { } when now < soonBeforeStart => StreamState.Future,
-                { } when now >= soonBeforeStart && now < StartDate => StreamState.StartingSoon,
+                { } when now < SoonBeforeStart => StreamState.Future,
+                { } when now >= SoonBeforeStart && now < StartDate => StreamState.StartingSoon,
                 { } when now >= StartDate && now < EndDate => StreamState.Playing,
-                { } when now >= EndDate && now < soonAfterEnd => StreamState.MightStillBeOn,
+                { } when now >= EndDate && now < SoonAfterEnd => StreamState.MightStillBeOn,
                 _ => StreamState.Ended,
             };
         }

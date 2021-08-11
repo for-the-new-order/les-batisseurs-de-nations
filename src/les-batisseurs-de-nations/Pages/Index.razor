@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@using System.Timers
+
+@page "/"
 @inject IEpisodesService EpisodesService
 
 @if (!_isLive)
@@ -14,14 +16,14 @@
 }
 else if (_isLive)
 {
-    <TwitchEmbedFull Channel="_episode.Streamer" />
+    <TwitchEmbedFull Channel="_nextEpisode.Streamer" />
 }
 else
 {
     <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-7">
         <MudGrid Justify="Justify.Center">
             <MudItem lg="@NextEpisodeCols" xs="12">
-                <NextStreamCard Episode="_episode" />
+                <NextStreamCard Episode="_nextEpisode" />
             </MudItem>
             @if (!_noNextClanEpisode)
             {
@@ -33,29 +35,70 @@ else
     </MudContainer>
 }
 
+<RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="() => StateHasChanged()" />
+
 @code{
-    private EpisodeInfo _episode;
-    private bool _noNextEpisode => _episode == null;
+    //private Timer redrawTimer = new Timer();
+
+    private EpisodeInfo _nextEpisode;
+    private bool _noNextEpisode => _nextEpisode == null;
 
     private EpisodeInfo _nextClanEpisode;
     private bool _noNextClanEpisode => _nextClanEpisode == null;
 
     private int NextEpisodeCols => _noNextClanEpisode ? 12 : 6;
 
-    private StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
-    private bool _isLive => _episode != null && _liveState.Contains(_episode.State);
+    //private StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
+    //private bool _isLive => _nextEpisode != null && _liveState.Contains(_nextEpisode.State);
+
+    private bool _isLive => _nextEpisode != null && _nextEpisode.IsLive;
+
+    const double OneHour = 3600000;
 
     protected override async Task OnInitializedAsync()
     {
-        _episode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date.ConvertUtcToEasternTime());
-        if (!_episode.HasTeamMembers)
+        _nextEpisode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date.ConvertUtcToEasternTime());
+        if (!_nextEpisode.HasTeamMembers)
         {
             _nextClanEpisode = await EpisodesService.FindNextClanEpisodeAsync(DateTime.UtcNow.Date);
         }
+
+        //redrawTimer.Interval = GetRefreshInterval();
+        //redrawTimer.Elapsed += (_, _) =>
+        //{
+        //    Console.WriteLine($"redrawTimer.Elapsed; _isLive: {_isLive}");
+        //    if (_isLive)
+        //    {
+        //        Console.WriteLine("Redrawing");
+        //        StateHasChanged();
+        //        redrawTimer.Stop();
+        //    }
+        //    else
+        //    {
+        //        var newInterval = GetRefreshInterval();
+        //        if (newInterval != redrawTimer.Interval)
+        //        {
+        //            redrawTimer.Interval = newInterval;
+        //        }
+        //    }
+        //};
+        //redrawTimer.Start();
     }
 
+    //private double GetRefreshInterval()
+    //{
+    //    var now = DateTime.UtcNow.ConvertUtcToEasternTime();
+    //    var nextEpisodeIsIn = _nextEpisode.SoonBeforeStart - now;
+    //    var interval = nextEpisodeIsIn.TotalMilliseconds < OneHour
+    //        ? nextEpisodeIsIn.TotalMilliseconds
+    //        : OneHour;
+    //    Console.WriteLine($"Next refresh interval in {interval} ms.");
+    //    return interval;
+    //}
+
+
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
-{
+    {
         new BreadcrumbItem("Accueil", href: null, disabled: true, icon: MudBlazor.Icons.Outlined.Home),
     };
 }
