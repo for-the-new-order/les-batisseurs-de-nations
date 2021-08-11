@@ -1,0 +1,27 @@
+﻿@if (_remainingTime.TotalDays >= 1)
+{
+    @($"{_remainingTime.TotalDays} jour(s)")
+}
+else
+{
+    @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}:{_remainingTime.Seconds:00}")
+}
+
+@code{
+    [Parameter]
+    public DateTime Target { get; set; }
+
+    private TimeSpan _remainingTime;
+    private readonly System.Timers.Timer _redrawTimer = new();
+
+    protected override void OnParametersSet()
+    {
+        _redrawTimer.Interval = 1000;
+        _redrawTimer.Elapsed += (_, _) =>
+        {
+            _remainingTime = Target - DateTime.UtcNow.ConvertUtcToEasternTime();
+            StateHasChanged();
+        };
+        _redrawTimer.Start();
+    }
+}

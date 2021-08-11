@@ -12,13 +12,17 @@
         <a href="/"><div class="live-stream">&#x29BF;&nbsp;LIVE STREAM</div></a>
     }
 }
+else if (_nextEpisode != null)
+{
+    <text>Prochain épisode:</text>
+    <CountdownClock Target="_nextEpisode.SoonBeforeStart" />
+}
 
 <RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="() => StateHasChanged()" />
 
 @code{
     private EpisodeInfo _nextEpisode;
-    private StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
-    private bool _isLive => _nextEpisode != null && _liveState.Contains(_nextEpisode.State);
+    private bool _isLive => _nextEpisode != null && _nextEpisode.IsLive;
     private bool _isHomePage = false;
 
     protected override async Task OnInitializedAsync()
