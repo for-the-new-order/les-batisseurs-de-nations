@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace LesBatisseursDeNations.Shared
 {
     public class RefreshLiveStream : ComponentBase
     {
         public const double OneHour = 3600000;
-        private Timer redrawTimer = new Timer();
+        private readonly System.Timers.Timer _redrawTimer = new();
 
         [Parameter]
         public Action StateHasChangedDelegate { get; set; }
@@ -24,30 +23,30 @@ namespace LesBatisseursDeNations.Shared
         {
             var firstInterval = GetRefreshInterval();
             if(firstInterval <= 0) {
-                redrawTimer.Close();
+                _redrawTimer.Close();
                 return;
             }
 
-            redrawTimer.Interval = firstInterval;
-            redrawTimer.Elapsed += (_, _) =>
+            _redrawTimer.Interval = firstInterval;
+            _redrawTimer.Elapsed += (_, _) =>
             {
                 Console.WriteLine($"redrawTimer.Elapsed; IsLive: {NextEpisode.IsLive}");
                 if (NextEpisode.IsLive)
                 {
                     Console.WriteLine("Redrawing");
-                    redrawTimer.Stop();
+                    _redrawTimer.Stop();
                     StateHasChangedDelegate();
                 }
                 else
                 {
                     var newInterval = GetRefreshInterval();
-                    if (newInterval != redrawTimer.Interval)
+                    if (newInterval != _redrawTimer.Interval)
                     {
-                        redrawTimer.Interval = newInterval;
+                        _redrawTimer.Interval = newInterval;
                     }
                 }
             };
-            redrawTimer.Start();
+            _redrawTimer.Start();
         }
 
         private double GetRefreshInterval()
