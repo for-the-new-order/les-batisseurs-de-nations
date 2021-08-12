@@ -42,42 +42,27 @@
 
 </MudNavMenu>
 
-@*<Menu Mode="MenuMode.Inline"
-          Theme="options.MenuTheme"
-          DefaultOpenKeys=@(new[] { "seasons" })
-          DefaultSelectedKeys=@(new[] {"home"})>
-        <MenuItem Key="home" Icon="home" RouterLink="/" Title="Accueil" RouterMatch="NavLinkMatch.All"></MenuItem>
-        <MenuItem Key="streams" ChildContent=streamMenuItemContent RouterLink="/streams" RouterMatch="NavLinkMatch.Prefix"></MenuItem>
-        <SubMenu Key="seasons" TitleTemplate="seasonsMenuItemContent">
-        </SubMenu>
-    </Menu>
-        private readonly RenderFragment streamMenuItemContent =
-        @<span>
-            <TwitchIcon />
-            <span>Streams</span>
-        </span>;
-
-        private readonly RenderFragment seasonsMenuItemContent =
-        @<span>
-            <JournalIcon />
-            <span>Episodes</span>
-        </span>;
-
-*@
 @code{
-        IEnumerable<TwitchChannel> Channels { get; set; }
-        IEnumerable<(string GroupTitle, bool Expanded, IOrderedEnumerable<EpisodeInfo> Episodes)> EpisodeGroups { get; set; }
+    IEnumerable<TwitchChannel> Channels { get; set; }
+    IEnumerable<(string GroupTitle, bool Expanded, IOrderedEnumerable<EpisodeInfo> Episodes)> EpisodeGroups { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         var episodes = await EpisodesService.AllAsync();
         var futureEpisodes = episodes.Where(x => x.EndDate > DateTime.UtcNow).OrderBy(x => x.StartDate);
-        var pastEpisodes = episodes.Except(futureEpisodes).OrderBy(x => x.StartDate);
+        var liveEpisode = episodes.Except(futureEpisodes).Where(x => x.IsLive).OrderBy(x => x.StartDate);
+        var pastEpisodes = episodes.Except(futureEpisodes).Where(x => x != liveEpisode).OrderBy(x => x.StartDate);
 
-        EpisodeGroups = new[] {
+        var last = pastEpisodes.Last();
+
+        EpisodeGroups = liveEpisode == null ? new[] {
             ("Épisodes passés", false, pastEpisodes),
             ("Épisodes à venir", true, futureEpisodes),
+        } : new[] {
+            ("Épisodes passés", false, pastEpisodes),
+            ("Épisodes en cours", true, liveEpisode),
+            ("Épisodes à venir", false, futureEpisodes),
         };
 
         Channels = await ChannelService.AllAsync();

@@ -3,19 +3,20 @@
 
 @if (_isLive)
 {
+
     var text = "LIVE STREAM";
     if (_nextEpisode.State == StreamState.StartingSoon)
     {
         text = "STARTING SOON";
     }
-    if (_isHomePage)
-    {
-        <div class="live-stream">&#x29BF;&nbsp;@text</div>
-    }
-    else
-    {
-        <a href="/"><div class="live-stream">&#x29BF;&nbsp;@text</div></a>
-    }
+
+    <a href="@_nextEpisode.Streamer.ChannelUri" title="@_nextEpisode.Streamer.DisplayName" target="_blank" class="mr-3">
+        <MudAvatar Image="@_nextEpisode.Streamer.ProfileImageUri"></MudAvatar>
+    </a>
+    <div class="live-stream">
+        &#x29BF;&nbsp;@text
+    </div>
+
     if (_nextEpisode.State == StreamState.StartingSoon)
     {
         <text>&nbsp;</text>

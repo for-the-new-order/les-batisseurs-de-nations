@@ -65,6 +65,12 @@
                 <iframe src="@Info.YouTubeEmbededUri" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </MudPaper>
         }
+        else if (Info.IsLive)
+        {
+            <MudButton Link="@Info.Streamer.ChannelUri" Target="_blank" Variant="Variant.Filled" Color="Color.Error" Class="mt-3">
+                Allez regarder le stream LIVE sur Twitch!
+            </MudButton>
+        }
         else
         {
             <MudPaper Elevation="0" Class="youtube-iframe-container mt-3 rounded-0">
