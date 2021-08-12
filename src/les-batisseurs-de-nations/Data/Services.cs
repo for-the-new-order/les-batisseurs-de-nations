@@ -41,7 +41,7 @@ namespace LesBatisseursDeNations.Data
         public Task<EpisodeInfo> FindNextAsync(DateTime now)
         {
             var next = _database.Episodes
-                .Where(x => x.StartDate > now)
+                .Where(x => x.IsLive || x.StartDate > now)
                 .OrderBy(x => x.StartDate)
                 .FirstOrDefault()
             ;

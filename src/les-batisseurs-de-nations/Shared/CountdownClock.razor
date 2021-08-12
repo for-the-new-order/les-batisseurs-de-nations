@@ -2,7 +2,7 @@
 {
     @($"{_remainingTime.TotalDays} jour(s)")
 }
-else
+else if (_remainingTime.TotalSeconds > 0)
 {
     @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}:{_remainingTime.Seconds:00}")
 }

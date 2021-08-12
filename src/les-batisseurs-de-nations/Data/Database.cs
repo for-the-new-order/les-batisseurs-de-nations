@@ -458,6 +458,12 @@ namespace LesBatisseursDeNations.Data
                 startDate: new DateTime(2021, 8, 28, 15, 0, 0),
                 discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233025024720947"
             );
+            //AddEpisode(
+            //    episodeNumber: 99,
+            //    streamer: onStartTuCa,
+            //    startDate: DateTime.Now.AddHours(-3).AddMinutes(-29).AddSeconds(-55), //new DateTime(2021, 8, 9, 23, 45, 0),
+            //    discordLink: "https://discord.com/channels/662746189069942802/867209739040718849/867233025024720947"
+            //);
         }
 
         private EpisodeInfo AddEpisode(

@@ -1,35 +1,52 @@
 ﻿@inject IEpisodesService EpisodesService
 @inject NavigationManager NavigationManager
 
-@if (_isLive)
-{
 
-    var text = "LIVE STREAM";
-    if (_nextEpisode.State == StreamState.StartingSoon)
+@if (_nextEpisode != null)
+{
+    var text = "";
+    switch (_nextEpisode.State)
     {
-        text = "STARTING SOON";
+        case StreamState.Ended:
+            text = "ENDED";
+            break;
+        case StreamState.Playing:
+            text = "LIVE STREAM";
+            break;
+        case StreamState.StartingSoon:
+            text = "STARTING SOON";
+            break;
+        case StreamState.Future:
+            break;
+        case StreamState.MightStillBeOn:
+            text = "MIGHT STILL BE LIVE";
+            break;
     }
 
-    <a href="@_nextEpisode.Streamer.ChannelUri" title="@_nextEpisode.Streamer.DisplayName" target="_blank" class="mr-3">
-        <MudAvatar Image="@_nextEpisode.Streamer.ProfileImageUri"></MudAvatar>
+    <a href="@_nextEpisode.Streamer.ChannelUri" target="_blank" class="mr-3">
+        <MudTooltip Text="@_nextEpisode.Streamer.DisplayName">
+            <MudAvatar Image="@_nextEpisode.Streamer.ProfileImageUri"></MudAvatar>
+        </MudTooltip>
     </a>
-    <div class="live-stream">
-        &#x29BF;&nbsp;@text
-    </div>
-
-    if (_nextEpisode.State == StreamState.StartingSoon)
+    @if (!string.IsNullOrEmpty(text))
     {
-        <text>&nbsp;</text>
-        <CountdownClock Target="_nextEpisode.StartDate" />
+        <div class="live-stream">
+            &#x29BF;&nbsp;@text
+        </div>
+        if (_nextEpisode.State == StreamState.StartingSoon)
+        {
+            <text>&nbsp;</text>
+            <CountdownClock Target="_nextEpisode.StartDate" />
+        }
     }
-}
-else if (_nextEpisode != null)
-{
-    <text>Prochain épisode:</text>
-    <CountdownClock Target="_nextEpisode.SoonBeforeStart" />
+    else if (_nextEpisode.SoonAfterEnd > DateTime.UtcNow.ConvertUtcToEasternTime())
+    {
+        <text>Prochain épisode:</text>
+        <CountdownClock Target="_nextEpisode.SoonBeforeStart" />
+    }
+    <RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="async () => await StateHasChangedDelegateAsync()" RefreshAfterEnded="true" />
 }
 
-<RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="() => StateHasChanged()" />
 
 @code{
     private EpisodeInfo _nextEpisode;
@@ -38,7 +55,16 @@ else if (_nextEpisode != null)
 
     protected override async Task OnInitializedAsync()
     {
-        _nextEpisode = await EpisodesService.FindNextAsync(DateTime.UtcNow.Date.ConvertUtcToEasternTime());
+        _nextEpisode = await EpisodesService.FindNextAsync(DateTime.UtcNow.ConvertUtcToEasternTime());
         _isHomePage = new Uri(NavigationManager.Uri).AbsolutePath == "/";
+    }
+
+    private async Task StateHasChangedDelegateAsync()
+    {
+        if (_nextEpisode.State == StreamState.Ended)
+        {
+            _nextEpisode = await EpisodesService.FindNextAsync(DateTime.UtcNow.ConvertUtcToEasternTime());
+        }
+        StateHasChanged();
     }
 }

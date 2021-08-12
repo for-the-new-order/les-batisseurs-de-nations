@@ -41,22 +41,37 @@
     </MudNavGroup>
 
 </MudNavMenu>
+<RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="async () => await StateHasChangedAsync()" RefreshAfterEnded="true" />
 
 @code{
     IEnumerable<TwitchChannel> Channels { get; set; }
     IEnumerable<(string GroupTitle, bool Expanded, IOrderedEnumerable<EpisodeInfo> Episodes)> EpisodeGroups { get; set; }
+    EpisodeInfo _nextEpisode;
 
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        await LoadAsync();
+    }
+
+    private async Task StateHasChangedAsync()
+    {
+        await LoadAsync();
+        StateHasChanged();
+    }
+
+    private async Task LoadAsync()
+    {
         var episodes = await EpisodesService.AllAsync();
         var futureEpisodes = episodes.Where(x => x.EndDate > DateTime.UtcNow).OrderBy(x => x.StartDate);
         var liveEpisode = episodes.Except(futureEpisodes).Where(x => x.IsLive).OrderBy(x => x.StartDate);
-        var pastEpisodes = episodes.Except(futureEpisodes).Where(x => x != liveEpisode).OrderBy(x => x.StartDate);
+        var pastEpisodes = episodes.Except(futureEpisodes).Where(x => !liveEpisode.Contains(x)).OrderBy(x => x.StartDate);
+
+        _nextEpisode = liveEpisode.FirstOrDefault();
 
         var last = pastEpisodes.Last();
 
-        EpisodeGroups = liveEpisode == null ? new[] {
+        EpisodeGroups = liveEpisode == null || liveEpisode.Count() == 0 ? new[] {
             ("Épisodes passés", false, pastEpisodes),
             ("Épisodes à venir", true, futureEpisodes),
         } : new[] {

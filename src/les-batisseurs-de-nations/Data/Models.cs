@@ -34,7 +34,7 @@ namespace LesBatisseursDeNations.Data
         public bool HasTeamMembers => Players.Any(x => x.IsTeamMember);
 
         public DateTime SoonBeforeStart => StartDate.AddMinutes(-30);
-        public DateTime SoonAfterEnd => StartDate.AddMinutes(30);
+        public DateTime SoonAfterEnd => EndDate.AddMinutes(30);
 
         private readonly StreamState[] _liveState = new[] { StreamState.StartingSoon, StreamState.Playing, StreamState.MightStillBeOn };
         public bool IsLive => _liveState.Contains(State);
