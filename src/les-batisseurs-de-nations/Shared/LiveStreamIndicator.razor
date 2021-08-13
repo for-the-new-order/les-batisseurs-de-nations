@@ -41,8 +41,23 @@
     }
     else if (_nextEpisode.SoonAfterEnd > DateTime.UtcNow.ConvertUtcToEasternTime())
     {
-        <text>Prochain épisode:</text>
-        <CountdownClock Target="_nextEpisode.SoonBeforeStart" />
+        <div class="d-flex flex-column">
+            <div>
+                Prochain épisode:
+                <CountdownClock Target="_nextEpisode.StartDate" />
+            </div>
+            @if (_nextEpisode.SoonBeforeStart > DateTime.UtcNow.ConvertUtcToEasternTime())
+            {
+                <small>
+                    Les joueurs doivent rejoindre le Hall dans
+                    <CountdownClock Target="_nextEpisode.SoonBeforeStart" DisplaySeconds="false" />
+                </small>
+            }
+            else
+            {
+                <small>La prépartie est en cours</small>
+            }
+        </div>
     }
     <RefreshLiveStream NextEpisode="_nextEpisode" StateHasChangedDelegate="async () => await StateHasChangedDelegateAsync()" RefreshAfterEnded="true" />
 }

@@ -2,26 +2,35 @@
 {
     @($"{_remainingTime.TotalDays} jour(s)")
 }
-else if (_remainingTime.TotalSeconds > 0)
+else if (DisplaySeconds && _remainingTime.TotalSeconds > 0)
 {
     @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}:{_remainingTime.Seconds:00}")
+}
+else if (!DisplaySeconds && Math.Floor(_remainingTime.TotalMinutes) > 0)
+{
+    @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}")
 }
 
 @code{
     [Parameter]
     public DateTime Target { get; set; }
 
+    [Parameter]
+    public bool DisplaySeconds { get; set; } = true;
+
     private TimeSpan _remainingTime;
     private readonly System.Timers.Timer _redrawTimer = new();
 
     protected override void OnParametersSet()
     {
+        _redrawTimer.Elapsed += Redraw;
         _redrawTimer.Interval = 1000;
-        _redrawTimer.Elapsed += (_, _) =>
+        _redrawTimer.Start();
+
+        void Redraw(object sender, System.Timers.ElapsedEventArgs e)
         {
             _remainingTime = Target - DateTime.UtcNow.ConvertUtcToEasternTime();
             StateHasChanged();
-        };
-        _redrawTimer.Start();
+        }
     }
 }
