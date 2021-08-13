@@ -6,9 +6,16 @@ else if (DisplaySeconds && _remainingTime.TotalSeconds > 0)
 {
     @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}:{_remainingTime.Seconds:00}")
 }
-else if (!DisplaySeconds && Math.Floor(_remainingTime.TotalMinutes) > 0)
+else if (!DisplaySeconds)
 {
-    @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}")
+    if (Math.Floor(_remainingTime.TotalMinutes) > 0)
+    {
+        @($"{_remainingTime.Hours:00}:{_remainingTime.Minutes:00}")
+    }
+    else
+    { 
+        @($"00:{_remainingTime.Seconds:00}")
+    }
 }
 
 @code{
